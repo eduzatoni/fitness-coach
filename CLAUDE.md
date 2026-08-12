@@ -83,8 +83,13 @@ Use when you need the raw session-by-session record for an exercise.
 ```
 
 Returns: trend, currentWorkingWeight, previousWorkingWeight, repTrend, estimated1RMTrend,
-plateauSessions, recommendation {action, target, reason}.
-Use for "how is X going?", "should I increase X?", "is X plateauing?".
+plateauSessions, `recentSessions` (array of `{ date, weight, repsPerSet, totalReps, best1RM }`),
+recommendation `{ action, target, reason }`.
+
+`recentSessions` gives the "9/8/8" table directly — use it when showing the user their recent
+history. You do not need to call `get_exercise_history` separately just to show rep rows.
+
+Use for: "how is X going?", "should I increase X?", "is X plateauing?", "what weight next time?".
 
 ### analyze_workout
 

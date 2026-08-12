@@ -6,6 +6,16 @@ import { recommendExercise } from "../analysis/recommendations.js";
 import { performanceTrend } from "../analysis/trend.js";
 import { detectPlateau } from "../analysis/plateau.js";
 import { totalVolume } from "../analysis/volume.js";
+import type { HevyWorkout } from "../hevy/types.js";
+
+interface RecentSession {
+  date: string;
+  weight: number | null;
+  /** e.g. "10/9/8" — working sets only */
+  repsPerSet: string;
+  totalReps: number;
+  best1RM: number | null;
+}
 
 export async function analyzeExerciseTool(args: {
   exercise: string;
@@ -22,26 +32,46 @@ export async function analyzeExerciseTool(args: {
   repTrend: "positive" | "negative" | "neutral" | "insufficient_data";
   estimated1RMTrend: number | null;
   plateauSessions: number;
+  recentSessions: RecentSession[];
   recommendation: { action: string; target: string; reason: string };
 }> {
-  const limit = (args.sessions ?? 10) * 3;
+  const targetSessions = args.sessions ?? 10;
+  // Fetch enough workouts to find targetSessions instances of this exercise.
+  // Use a generous multiplier (5×) since an exercise may appear in 1-in-5 workouts.
+  const limit = Math.min(targetSessions * 5, 100);
   const repRange = args.repRange ?? ([8, 12] as [number, number]);
   const opts = { refresh: args.refresh };
 
   const workouts = await getRecentWorkouts(limit, opts);
   const resolved = await resolveExerciseName(args.exercise, opts);
 
-  const sessionList = [];
-  for (const workout of [...workouts].reverse()) {
-    const ex = workout.exercises.find((e) => {
+  // If template resolution failed, fall back to title match across actual workout history
+  const matchesExercise = (workout: HevyWorkout) =>
+    workout.exercises.find((e) => {
       if (resolved) return e.exercise_template_id === resolved.id;
       return e.title.toLowerCase().includes(args.exercise.toLowerCase());
     });
+
+  const sessionList = [];
+  const recentSessions: RecentSession[] = [];
+
+  for (const workout of [...workouts].reverse()) {
+    const ex = matchesExercise(workout);
     if (!ex) continue;
 
     const ws = workingSets(ex.sets);
-    sessionList.push(sessionMetrics(workout.start_time.slice(0, 10), ws));
-    if (sessionList.length >= (args.sessions ?? 10)) break;
+    const metrics = sessionMetrics(workout.start_time.slice(0, 10), ws);
+    sessionList.push(metrics);
+
+    recentSessions.push({
+      date: metrics.date,
+      weight: metrics.topWeight,
+      repsPerSet: ws.map((s) => s.reps).join("/"),
+      totalReps: metrics.totalReps,
+      best1RM: metrics.best1RM !== null ? Math.round(metrics.best1RM * 10) / 10 : null,
+    });
+
+    if (sessionList.length >= targetSessions) break;
   }
 
   if (sessionList.length === 0) {
@@ -55,7 +85,12 @@ export async function analyzeExerciseTool(args: {
       repTrend: "insufficient_data",
       estimated1RMTrend: null,
       plateauSessions: 0,
-      recommendation: { action: "INSUFFICIENT_DATA", target: "—", reason: "No sessions found for this exercise." },
+      recentSessions: [],
+      recommendation: {
+        action: "INSUFFICIENT_DATA",
+        target: "—",
+        reason: "No sessions found for this exercise.",
+      },
     };
   }
 
@@ -90,6 +125,7 @@ export async function analyzeExerciseTool(args: {
     repTrend,
     estimated1RMTrend: e1RMTrend,
     plateauSessions: plateau.isPlateaued ? plateau.sessionCount : 0,
+    recentSessions,
     recommendation: rec.recommendation,
   };
 }
