@@ -107,8 +107,31 @@ Use for "how did my workout go?", "what should I change after today?".
 {}
 ```
 
-Returns all Hevy routines with exercise lists and set counts.
-Use for routine-level questions.
+Returns all Hevy routines with exercise lists and set counts. Use as a lightweight lookup when you
+need routine titles/ids before calling `analyze_routine`.
+
+### analyze_routine
+
+```json
+{ "id": "optional-routine-id" }
+```
+
+(Omit `id` to analyze the first/default routine.) Returns: exercise list with primaryMuscle and
+movementPattern, muscleGroupVolume (weekly set estimates), movementPatterns count, totalWorkingSets,
+estimatedDurationMinutes, flaggedIssues (imbalances, order problems, excessive volume).
+Use for: "what do you think of my routine?", "do I have too much chest?", "what am I neglecting?".
+
+### get_training_summary
+
+```json
+{ "months": 3 }
+```
+
+Returns: totalWorkouts, workoutsPerWeek, topExercises (with trend + plateaued flag), plateauedExercises,
+weeklyVolume, muscleGroupFrequency, daysSinceLastWorkout, flags (inactivity, low frequency, plateaus,
+neglected muscles).
+Use for: "how has my training changed?", "am I progressing overall?", "what should I focus on?",
+"which exercises are plateauing?", "when did I last train legs?".
 
 ## Recommendation actions (internal)
 

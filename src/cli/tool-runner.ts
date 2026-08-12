@@ -5,6 +5,8 @@ import { getExerciseHistoryTool } from "../tools/get-exercise-history.js";
 import { analyzeWorkoutTool } from "../tools/analyze-workout.js";
 import { analyzeExerciseTool } from "../tools/analyze-exercise.js";
 import { getRoutinesTool } from "../tools/get-routines.js";
+import { analyzeRoutineTool } from "../tools/analyze-routine.js";
+import { getTrainingSummaryTool } from "../tools/get-training-summary.js";
 
 const TOOLS: Record<string, (args: Record<string, unknown>) => Promise<unknown>> = {
   get_recent_workouts: (a) => getRecentWorkoutsTool(a as Parameters<typeof getRecentWorkoutsTool>[0]),
@@ -12,6 +14,8 @@ const TOOLS: Record<string, (args: Record<string, unknown>) => Promise<unknown>>
   analyze_workout: (a) => analyzeWorkoutTool(a as Parameters<typeof analyzeWorkoutTool>[0]),
   analyze_exercise: (a) => analyzeExerciseTool(a as Parameters<typeof analyzeExerciseTool>[0]),
   get_routines: (a) => getRoutinesTool(a as Parameters<typeof getRoutinesTool>[0]),
+  analyze_routine: (a) => analyzeRoutineTool(a as Parameters<typeof analyzeRoutineTool>[0]),
+  get_training_summary: (a) => getTrainingSummaryTool(a as Parameters<typeof getTrainingSummaryTool>[0]),
 };
 
 async function main() {
