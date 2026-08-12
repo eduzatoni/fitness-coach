@@ -1,0 +1,25 @@
+{
+  "name": "hevy-workout-coach",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A Claude Skill-style personal strength-training coach backed by Hevy workout history.",
+  "scripts": {
+    "tool": "tsx src/cli/tool-runner.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^3.2.4",
+    "@types/node": "^22.0.0"
+  }
+}

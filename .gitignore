@@ -1,0 +1,14 @@
+# Secrets — never commit
+.env
+
+# Dependencies
+node_modules/
+
+# Cached Hevy API responses (regenerated on demand)
+data/cache/*
+!data/cache/.gitkeep
+
+# Build / editor
+dist/
+*.tsbuildinfo
+.DS_Store
