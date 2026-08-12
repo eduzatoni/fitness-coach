@@ -55,19 +55,30 @@
 - [x] `npm test` green (33 tests)
 
 ## M2 — Exercise progression Q&A  `feat:`
-- [ ] harden `analyze_exercise` + `get_exercise_history` for "how is my bench progressing" +
-      contextual "should I increase"
+- [x] harden `analyze_exercise` + `get_exercise_history` for "how is my bench progressing" +
+      contextual "should I increase" (recentSessions[], 5× fetch multiplier, fuzzy resolver)
 
 ## M3 — Routine analysis  `feat:`
-- [ ] `src/tools/get-routines.ts`
-- [ ] `src/tools/analyze-routine.ts`
-- [ ] `src/tools/get-training-summary.ts`
-- [ ] muscle-group distribution via exercise_templates; flag meaningful issues only
+- [x] `src/tools/get-routines.ts`
+- [x] `src/tools/analyze-routine.ts` (muscle-group volume, movement patterns, flagged issues)
+- [x] `src/tools/get-training-summary.ts` (period summary, plateaus, frequency, weekly volume)
+- [x] `src/analysis/muscle-groups.ts` (inferMovementPattern, aggregateMuscleVolume, flagVolumeImbalances)
+- [x] `src/tools/get-recommendations.ts` (expose stored recommendations to Claude)
+
+## Post-review fixes  `fix:`
+- [x] `getWorkoutsSince`: string date comparison → proper `new Date()` comparison
+- [x] `inferMovementPattern`: remove dead inner branch
+- [x] `isPostBumpAdjustment`: add `repMax` guard
+- [x] `detectPlateau`: check weight + reps + e1RM (not e1RM alone)
+- [x] Deduplicate `matchesExercise` + session loop → `collectExerciseSessions()` in workouts.ts
+- [x] Deduplicate muscle keyword map in `get-training-summary` → use `inferMovementPattern`
+- [x] Merge split imports in `analyze-workout.ts`
+- [x] Add return-after-break recommendation fixture
 
 ---
 
 ## Verification checklist
-- [ ] `npm install && npm test` green (no network; fixtures)
+- [x] `npm install && npm test` green (59 tests, no network)
 - [ ] user adds real key to `.env`; `npm run tool get_recent_workouts '{"limit":1}'` returns latest workout
 - [ ] in-chat: "How did my last workout go?" → conversational per-exercise answer
 - [ ] in-chat follow-up: "What should I increase next time?" resolves with no extra user data
@@ -79,3 +90,7 @@
   Decisions: Bash-run CLI, TTL cache + `--refresh`, full M1 scope. Plan approved.
 - 2026-08-12 — M0 committed (chore: scaffold). M1 committed (feat: Hevy client, analysis engine,
   tools, skill files, 33 tests green). Ready for live smoke test with real API key.
+- 2026-08-12 — M2 committed (feat: exercise Q&A hardening, fuzzy resolver, 43 tests).
+- 2026-08-12 — M3 committed (feat: routine analysis, training summary, muscle-groups, 58 tests).
+- 2026-08-12 — Post-review fixes committed (fix: date comparison bug, plateau spec §7 compliance,
+  isPostBumpAdjustment repMax guard, deduplication, get_recommendations tool, 59 tests green).
