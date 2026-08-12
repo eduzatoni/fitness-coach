@@ -56,12 +56,19 @@ export function compareSessionPair(
 
   const wasWeightBumped = weightIncreased;
 
-  // Post-bump adjustment: weight went up this session vs the last, but reps are within range
-  const [repMin] = repRange;
+  // Post-bump adjustment: weight went up this session vs the last, and reps are within range
+  // (not above repMax — if above, the previous weight bump was too conservative and we should increase again)
+  const [repMin, repMax] = repRange;
   const minRepsThisSession = curr.sets.length > 0
     ? Math.min(...curr.sets.map((s) => s.reps))
     : 0;
-  const isPostBumpAdjustment = wasWeightBumped && minRepsThisSession >= repMin;
+  const maxRepsThisSession = curr.sets.length > 0
+    ? Math.max(...curr.sets.map((s) => s.reps))
+    : 0;
+  const isPostBumpAdjustment =
+    wasWeightBumped &&
+    minRepsThisSession >= repMin &&
+    maxRepsThisSession <= repMax;
 
   return {
     weightIncreased,

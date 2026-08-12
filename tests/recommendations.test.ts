@@ -95,4 +95,17 @@ describe("recommendations — fixture scenarios", () => {
     const result = recommendExercise(sessions, REP_RANGE);
     expect(result.action).toBe("CONSIDER_REPLACEMENT");
   });
+
+  it("return after break: first session back should not be penalised as regression", () => {
+    // Several strong sessions, then a long gap, then one weaker session back
+    const sessions = [
+      makeSession("2026-01-01", [ws(80, 11), ws(80, 10), ws(80, 10)]),
+      makeSession("2026-01-08", [ws(80, 11), ws(80, 11), ws(80, 10)]),
+      makeSession("2026-03-01", [ws(80, 8),  ws(80, 8),  ws(80, 7)]), // 8-week break, rust
+    ];
+    const result = recommendExercise(sessions, REP_RANGE);
+    // First session back with reduced reps should be MAINTAIN or MONITOR — not CONSIDER_REPLACEMENT
+    expect(result.action).not.toBe("CONSIDER_REPLACEMENT");
+    expect(result.plateaued).toBe(false);
+  });
 });

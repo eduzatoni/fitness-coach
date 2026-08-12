@@ -22,7 +22,6 @@ export function inferMovementPattern(
   const m = primaryMuscle.toLowerCase();
 
   if (m === "chest" || t.includes("bench") || t.includes("push up") || t.includes("chest press")) {
-    if (t.includes("incline") || t.includes("overhead")) return "horizontal_push";
     return "horizontal_push";
   }
   if (t.includes("overhead press") || t.includes("shoulder press") || t.includes("military press") || t.includes("arnold")) {

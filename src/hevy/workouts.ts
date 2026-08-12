@@ -1,5 +1,8 @@
 import { hevyGet, hevyGetAll } from "./client.js";
 import type { HevyWorkout } from "./types.js";
+import { workingSets } from "../analysis/estimated-1rm.js";
+import { sessionMetrics } from "../analysis/progression.js";
+import type { SessionMetrics } from "../analysis/progression.js";
 
 export async function getRecentWorkouts(
   limit: number,
@@ -42,10 +45,34 @@ export async function getWorkoutsSince(
   options: { refresh?: boolean } = {}
 ): Promise<HevyWorkout[]> {
   return hevyGetAll<HevyWorkout>("/workouts/events", "events", 10, options).then(
-    // events endpoint returns event objects; filter updated_at >= since
     (events) =>
       (events as unknown as Array<{ workout: HevyWorkout }>)
         .map((e) => e.workout)
-        .filter((w) => w.updated_at >= since)
+        .filter((w) => new Date(w.updated_at) >= new Date(since))
   );
+}
+
+/**
+ * Collect per-session metrics for one exercise across a list of workouts.
+ * Workouts should be newest-first (as returned by getRecentWorkouts).
+ * Returns sessions oldest-first, capped at `limit`.
+ */
+export function collectExerciseSessions(
+  workouts: HevyWorkout[],
+  resolved: { id: string; title: string } | null,
+  exerciseName: string,
+  limit: number
+): SessionMetrics[] {
+  const sessions: SessionMetrics[] = [];
+  for (const workout of [...workouts].reverse()) {
+    const ex = workout.exercises.find((e) => {
+      if (resolved) return e.exercise_template_id === resolved.id;
+      return e.title.toLowerCase().includes(exerciseName.toLowerCase());
+    });
+    if (!ex) continue;
+    const ws = workingSets(ex.sets);
+    sessions.push(sessionMetrics(workout.start_time.slice(0, 10), ws));
+    if (sessions.length >= limit) break;
+  }
+  return sessions;
 }

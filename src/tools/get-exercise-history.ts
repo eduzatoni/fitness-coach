@@ -1,9 +1,7 @@
-import { getRecentWorkouts } from "../hevy/workouts.js";
+import { getRecentWorkouts, collectExerciseSessions } from "../hevy/workouts.js";
 import { resolveExerciseName } from "../hevy/exercises.js";
 import { workingSets } from "../analysis/estimated-1rm.js";
-import { sessionMetrics } from "../analysis/progression.js";
 import { totalVolume } from "../analysis/volume.js";
-import type { HevyWorkout } from "../hevy/types.js";
 
 interface SetRecord {
   type: string;
@@ -28,26 +26,29 @@ export async function getExerciseHistoryTool(args: {
   refresh?: boolean;
 }): Promise<{ exercise: string; resolvedTitle: string | null; sessions: SessionRecord[] }> {
   const targetSessions = args.sessions ?? 10;
-  // Generous multiplier — exercise may appear in only 1-in-5 workouts
   const limit = Math.min(targetSessions * 5, 100);
-  const workouts = await getRecentWorkouts(limit, { refresh: args.refresh });
+  const opts = { refresh: args.refresh };
 
-  const resolved = await resolveExerciseName(args.exercise, { refresh: args.refresh });
+  const [workouts, resolved] = await Promise.all([
+    getRecentWorkouts(limit, opts),
+    resolveExerciseName(args.exercise, opts),
+  ]);
 
-  const matchesExercise = (workout: HevyWorkout) =>
-    workout.exercises.find((e) => {
+  // Use shared collector for SessionMetrics, then re-walk for display fields
+  const sessionMetricsList = collectExerciseSessions(workouts, resolved, args.exercise, targetSessions);
+
+  // Map back to display records (walk workouts in same order to get set-level data)
+  const history: SessionRecord[] = [];
+  for (const workout of [...workouts].reverse()) {
+    const exercise = workout.exercises.find((e) => {
       if (resolved) return e.exercise_template_id === resolved.id;
       return e.title.toLowerCase().includes(args.exercise.toLowerCase());
     });
-
-  const history: SessionRecord[] = [];
-
-  for (const workout of [...workouts].reverse()) {
-    const exercise = matchesExercise(workout);
     if (!exercise) continue;
 
     const ws = workingSets(exercise.sets);
-    const metrics = sessionMetrics(workout.start_time.slice(0, 10), ws);
+    const metrics = sessionMetricsList[history.length];
+    if (!metrics) break;
 
     history.push({
       date: metrics.date,

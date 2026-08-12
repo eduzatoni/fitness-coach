@@ -4,6 +4,7 @@ import { sessionMetrics } from "../analysis/progression.js";
 import { detectPlateau } from "../analysis/plateau.js";
 import { recommendExercise } from "../analysis/recommendations.js";
 import { totalVolume } from "../analysis/volume.js";
+import { inferMovementPattern } from "../analysis/muscle-groups.js";
 
 interface ExerciseSummary {
   title: string;
@@ -142,20 +143,29 @@ export async function getTrainingSummaryTool(args: {
     }));
 
   // Muscle group frequency (how many workouts hit each major muscle)
+  // Uses inferMovementPattern to avoid duplicating keyword heuristics
+  const movementToMuscle: Record<string, string> = {
+    horizontal_push: "chest",
+    vertical_push: "shoulders",
+    horizontal_pull: "back",
+    vertical_pull: "back",
+    squat: "quads",
+    hinge: "hamstrings",
+  };
   const muscleGroupFrequency: Record<string, number> = {};
   for (const workout of inPeriod) {
     const musclesThisWorkout = new Set<string>();
     for (const ex of workout.exercises) {
-      // Use title-based heuristics since we don't have template data here
+      const pattern = inferMovementPattern(ex.title, "unknown");
+      const muscle = movementToMuscle[pattern];
+      if (muscle) musclesThisWorkout.add(muscle);
+      // Isolation — map by title keywords for specificity
       const t = ex.title.toLowerCase();
-      if (t.includes("bench") || t.includes("chest") || t.includes("push up")) musclesThisWorkout.add("chest");
-      if (t.includes("row") || t.includes("pulldown") || t.includes("pull up") || t.includes("chin")) musclesThisWorkout.add("back");
-      if (t.includes("squat") || t.includes("leg press") || t.includes("lunge")) musclesThisWorkout.add("quads");
-      if (t.includes("deadlift") || t.includes("rdl") || t.includes("hip thrust") || t.includes("curl") && t.includes("leg")) musclesThisWorkout.add("hamstrings");
-      if (t.includes("shoulder press") || t.includes("overhead press") || t.includes("lateral raise")) musclesThisWorkout.add("shoulders");
       if (t.includes("curl") && !t.includes("leg")) musclesThisWorkout.add("biceps");
-      if (t.includes("tricep") || t.includes("pushdown") || t.includes("extension")) musclesThisWorkout.add("triceps");
+      if (t.includes("tricep") || t.includes("pushdown") || (t.includes("extension") && !t.includes("back"))) musclesThisWorkout.add("triceps");
       if (t.includes("calf") || t.includes("calves")) musclesThisWorkout.add("calves");
+      if (t.includes("squat") || t.includes("leg press") || t.includes("lunge")) musclesThisWorkout.add("quads");
+      if (t.includes("deadlift") || t.includes("rdl") || t.includes("hip thrust") || (t.includes("curl") && t.includes("leg"))) musclesThisWorkout.add("hamstrings");
     }
     for (const muscle of musclesThisWorkout) {
       muscleGroupFrequency[muscle] = (muscleGroupFrequency[muscle] ?? 0) + 1;

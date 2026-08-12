@@ -133,7 +133,15 @@ neglected muscles).
 Use for: "how has my training changed?", "am I progressing overall?", "what should I focus on?",
 "which exercises are plateauing?", "when did I last train legs?".
 
-## Recommendation actions (internal)
+### get_recommendations
+
+```json
+{ "exercise": "Bench Press", "limit": 10 }
+```
+
+(Both fields optional — omit `exercise` to get all recent recommendations.) Returns stored
+recommendations from previous coaching sessions. Use when the user asks "did your advice work?",
+"what did you tell me last time about X?", or "have I followed through on bench?".
 
 The analysis engine returns one of these action codes. Use them to reason; never expose them
 verbatim to the user:

@@ -1,7 +1,6 @@
 import { getRecentWorkouts, getWorkoutById } from "../hevy/workouts.js";
 import { workingSets } from "../analysis/estimated-1rm.js";
-import { sessionMetrics } from "../analysis/progression.js";
-import { compareSessionPair } from "../analysis/progression.js";
+import { sessionMetrics, compareSessionPair } from "../analysis/progression.js";
 import { recommendExercise } from "../analysis/recommendations.js";
 import { totalVolume } from "../analysis/volume.js";
 

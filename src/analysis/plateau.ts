@@ -44,14 +44,35 @@ export function detectPlateau(sessions: SessionMetrics[]): PlateauResult {
 
   const first = e1RMs[0]!;
   const last = e1RMs[e1RMs.length - 1]!;
-  const netGain = (last - first) / first; // relative improvement first→last
+  const netGain = (last - first) / first;
 
-  // If there's a meaningful net gain across the window, it's not a plateau
+  // If e1RM improved meaningfully across the window, it's not a plateau
   if (netGain > MAX_RELATIVE_VARIANCE) {
     return {
       isPlateaued: false,
       sessionCount: sessions.length,
       reason: `e1RM improved ${(netGain * 100).toFixed(1)}% over the window — still progressing.`,
+    };
+  }
+
+  // Per spec §7: plateau requires flat load + reps + e1RM, not just e1RM
+  const topWeights = recent.map((s) => s.topWeight ?? 0);
+  const totalRepsArr = recent.map((s) => s.totalReps);
+
+  const firstWeight = topWeights[0]!;
+  const lastWeight = topWeights[topWeights.length - 1]!;
+  const weightNetGain = firstWeight > 0 ? (lastWeight - firstWeight) / firstWeight : 0;
+
+  const firstReps = totalRepsArr[0]!;
+  const lastReps = totalRepsArr[totalRepsArr.length - 1]!;
+  const repsNetGain = firstReps > 0 ? (lastReps - firstReps) / firstReps : 0;
+
+  // If weight or reps are meaningfully improving, not a plateau
+  if (weightNetGain > MAX_RELATIVE_VARIANCE || repsNetGain > MAX_RELATIVE_VARIANCE) {
+    return {
+      isPlateaued: false,
+      sessionCount: sessions.length,
+      reason: "Weight or reps still improving — not a plateau.",
     };
   }
 
@@ -62,7 +83,7 @@ export function detectPlateau(sessions: SessionMetrics[]): PlateauResult {
     return {
       isPlateaued: true,
       sessionCount: recent.length,
-      reason: `e1RM flat within ${(variance * 100).toFixed(1)}% over last ${recent.length} spaced sessions.`,
+      reason: `Load, reps, and e1RM all flat within ${(variance * 100).toFixed(1)}% over last ${recent.length} spaced sessions.`,
     };
   }
 
