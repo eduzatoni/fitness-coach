@@ -72,6 +72,38 @@ export async function hevyGet<T>(
   return data;
 }
 
+export async function hevyPost<T>(path: string, body: unknown): Promise<T> {
+  const url = BASE_URL + path;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "api-key": getApiKey(), "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Hevy API error ${res.status} for POST ${path}: ${text}`);
+  }
+
+  return res.json() as Promise<T>;
+}
+
+export async function hevyPut<T>(path: string, body: unknown): Promise<T> {
+  const url = BASE_URL + path;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: { "api-key": getApiKey(), "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Hevy API error ${res.status} for PUT ${path}: ${text}`);
+  }
+
+  return res.json() as Promise<T>;
+}
+
 /** Fetch all pages of a paginated endpoint, returning a flat array of items. */
 export async function hevyGetAll<T>(
   path: string,

@@ -75,6 +75,11 @@ export interface HevyRoutineFolder {
   created_at: string;
 }
 
+/** Request body for creating a routine folder. */
+export interface RoutineFolderInput {
+  title: string;
+}
+
 export interface PaginatedResponse<T> {
   page: number;
   page_count: number;

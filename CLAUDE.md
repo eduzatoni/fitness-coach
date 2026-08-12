@@ -212,7 +212,22 @@ Pass one of these as the `edit` field:
 `exercise_title` matching is case-insensitive and fuzzy — "bench press" finds "Bench Press (Barbell)".
 Use `get_routines` first to get the `routineId` if you don't have it.
 
-### Example conversation
+#### get_routine_folders
+
+```json
+{}
+```
+
+Returns all routine folders `{ id, title }`. Use before `create_routine_folder` to check if a
+folder already exists.
+
+#### create_routine_folder
+
+```json
+{ "title": "Strength Block", "confirm": true }
+```
+
+Creates a new routine folder. Same confirm gate — omit `confirm` or pass `false` to preview only.
 
 > "Add a 4th set to bench in my Push routine."
 
