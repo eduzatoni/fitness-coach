@@ -158,6 +158,8 @@ export interface AddExerciseEdit {
   exercise_title: string;
   /** Sets to add with the exercise. Defaults to one empty set if omitted. */
   sets?: RoutineSetInput[];
+  /** Rest time in seconds between sets. */
+  rest_seconds?: number | null;
   /** Insert after this exercise title (case-insensitive). Appends at end if omitted. */
   after_exercise?: string;
 }
@@ -191,6 +193,8 @@ export interface ChangeTargetEdit {
   weight_kg?: number | null;
   /** If provided, update reps on all working sets. */
   reps?: number | null;
+  /** If provided, update rest time between sets (seconds). */
+  rest_seconds?: number | null;
 }
 
 export type RoutineEdit =
@@ -210,6 +214,7 @@ export interface ExerciseDiff {
   change: "added" | "removed" | "modified";
   setsBefore: number;
   setsAfter: number;
+  rest_seconds?: number | null;
   notes?: string;
 }
 

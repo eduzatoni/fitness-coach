@@ -273,8 +273,50 @@ describe("applyRoutineEdit — remove_exercise", () => {
 });
 
 // ---------------------------------------------------------------------------
-// summarizeRoutineDiff
+// rest_seconds support
 // ---------------------------------------------------------------------------
+
+describe("rest_seconds", () => {
+  it("add_exercise with rest_seconds sets it on the new exercise payload", () => {
+    const { payload } = applyRoutineEdit(makeRoutine(), {
+      type: "add_exercise",
+      exercise_template_id: "tpl-lateral",
+      exercise_title: "Lateral Raise",
+      rest_seconds: 90,
+    });
+    expect(payload.exercises[2]!.rest_seconds).toBe(90);
+  });
+
+  it("add_exercise with rest_seconds includes it in the diff summary", () => {
+    const { diff } = applyRoutineEdit(makeRoutine(), {
+      type: "add_exercise",
+      exercise_template_id: "tpl-lateral",
+      exercise_title: "Lateral Raise",
+      rest_seconds: 90,
+    });
+    const lines = summarizeRoutineDiff(diff);
+    expect(lines[0]).toMatch(/90s rest/i);
+  });
+
+  it("change_target with rest_seconds updates the exercise", () => {
+    const { payload, diff } = applyRoutineEdit(makeRoutine(), {
+      type: "change_target",
+      exercise_title: "Bench Press",
+      rest_seconds: 120,
+    });
+    expect(payload.exercises[0]!.rest_seconds).toBe(120);
+    expect(diff.exercises[0]!.notes).toMatch(/120s/);
+  });
+
+  it("add_exercise without rest_seconds leaves it null", () => {
+    const { payload } = applyRoutineEdit(makeRoutine(), {
+      type: "add_exercise",
+      exercise_template_id: "tpl-lateral",
+      exercise_title: "Lateral Raise",
+    });
+    expect(payload.exercises[2]!.rest_seconds).toBeNull();
+  });
+});
 
 describe("summarizeRoutineDiff", () => {
   it("produces human-readable lines for modifications", () => {

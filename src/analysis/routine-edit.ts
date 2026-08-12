@@ -131,9 +131,11 @@ export function applyRoutineEdit(
           if (edit.reps !== undefined) s.reps = edit.reps;
         }
       }
+      if (edit.rest_seconds !== undefined) exercises[idx]!.rest_seconds = edit.rest_seconds;
       const notes: string[] = [];
       if (edit.weight_kg !== undefined) notes.push(`weight → ${edit.weight_kg}kg`);
       if (edit.reps !== undefined) notes.push(`reps → ${edit.reps}`);
+      if (edit.rest_seconds !== undefined) notes.push(`rest → ${edit.rest_seconds}s`);
       diffExercises.push({
         exercise_template_id: routine.exercises[idx]!.exercise_template_id,
         title: routine.exercises[idx]!.title,
@@ -150,6 +152,7 @@ export function applyRoutineEdit(
         exercise_template_id: edit.exercise_template_id,
         superset_id: null,
         notes: null,
+        rest_seconds: edit.rest_seconds ?? null,
         sets: edit.sets ?? [{ type: "normal", weight_kg: null, reps: null }],
       };
 
@@ -166,6 +169,7 @@ export function applyRoutineEdit(
         change: "added",
         setsBefore: 0,
         setsAfter: newEx.sets.length,
+        rest_seconds: edit.rest_seconds ?? null,
       });
       break;
     }
@@ -199,9 +203,11 @@ export function summarizeRoutineDiff(diff: RoutineDiff): string[] {
   const lines: string[] = [];
   for (const ex of diff.exercises) {
     switch (ex.change) {
-      case "added":
-        lines.push(`Add "${ex.title}" (${ex.setsAfter} set${ex.setsAfter !== 1 ? "s" : ""})`);
+      case "added": {
+        const restStr = ex.rest_seconds ? `, ${ex.rest_seconds}s rest` : "";
+        lines.push(`Add "${ex.title}" (${ex.setsAfter} set${ex.setsAfter !== 1 ? "s" : ""}${restStr})`);
         break;
+      }
       case "removed":
         lines.push(`Remove "${ex.title}"`);
         break;
