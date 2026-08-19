@@ -12,6 +12,7 @@ import { previewRoutineEditTool } from "../tools/preview-routine-edit.js";
 import { applyRoutineEditTool } from "../tools/apply-routine-edit.js";
 import { createRoutineTool } from "../tools/create-routine.js";
 import { createRoutineFolderTool, getRoutineFoldersTool } from "../tools/routine-folders.js";
+import { importWikiRoutineTool } from "../tools/import-wiki-routine.js";
 
 const TOOLS: Record<string, (args: Record<string, unknown>) => Promise<unknown>> = {
   get_recent_workouts: (a) => getRecentWorkoutsTool(a as Parameters<typeof getRecentWorkoutsTool>[0]),
@@ -27,6 +28,7 @@ const TOOLS: Record<string, (args: Record<string, unknown>) => Promise<unknown>>
   create_routine: (a) => createRoutineTool(a as Parameters<typeof createRoutineTool>[0]),
   get_routine_folders: (a) => getRoutineFoldersTool(a as Parameters<typeof getRoutineFoldersTool>[0]),
   create_routine_folder: (a) => createRoutineFolderTool(a as Parameters<typeof createRoutineFolderTool>[0]),
+  import_wiki_routine: (a) => importWikiRoutineTool(a as Parameters<typeof importWikiRoutineTool>[0]),
 };
 
 async function main() {
