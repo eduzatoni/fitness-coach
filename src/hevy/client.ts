@@ -10,7 +10,7 @@ const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 const projectRoot = fileURLToPath(new URL("../../..", import.meta.url));
 const CACHE_DIR = join(projectRoot, "data", "cache");
 
-function getApiKey(): string {
+export function getApiKey(): string {
   const key = process.env["HEVY_API_KEY"];
   if (!key) {
     throw new Error(
