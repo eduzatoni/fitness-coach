@@ -151,6 +151,7 @@ export async function getTrainingSummaryTool(args: {
     vertical_pull: "back",
     squat: "quads",
     hinge: "hamstrings",
+    cardio: "cardio",
   };
   const muscleGroupFrequency: Record<string, number> = {};
   for (const workout of inPeriod) {
@@ -166,6 +167,11 @@ export async function getTrainingSummaryTool(args: {
       if (t.includes("calf") || t.includes("calves")) musclesThisWorkout.add("calves");
       if (t.includes("squat") || t.includes("leg press") || t.includes("lunge")) musclesThisWorkout.add("quads");
       if (t.includes("deadlift") || t.includes("rdl") || t.includes("hip thrust") || (t.includes("curl") && t.includes("leg"))) musclesThisWorkout.add("hamstrings");
+      // Football / soccer → high leg load (quadriceps + hamstrings)
+      if (t.includes("football") || t.includes("soccer")) {
+        musclesThisWorkout.add("quads");
+        musclesThisWorkout.add("hamstrings");
+      }
     }
     for (const muscle of musclesThisWorkout) {
       muscleGroupFrequency[muscle] = (muscleGroupFrequency[muscle] ?? 0) + 1;

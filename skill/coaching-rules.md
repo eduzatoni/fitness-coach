@@ -24,12 +24,11 @@ Do not evaluate exercises in complete isolation. Consider the broader training c
 
 ### Whole-training scheduling
 
-Gym is not the whole picture. Football and running load the legs and create fatigue that Hevy
-never sees. For any scheduling or recovery question, combine both sources:
-- **Gym recency / leg-day history** → Hevy tools (`get_training_summary`, `get_recent_workouts`)
-- **Football and running** → `data/training-log.md`
+Football and running are logged directly in Hevy (via `log_workout`), so `get_recent_workouts`
+and `get_training_summary` see everything — gym, football, and running in one timeline. For any
+scheduling or recovery question, use the Hevy tools; no separate log file needed.
 
-**Infer leg/fatigue load from the activity** (never ask the user to tag it):
+**Infer leg/fatigue load from the activity** when advising on spacing:
 
 | Activity                        | legs     | fatigue  |
 |---------------------------------|----------|----------|
@@ -115,3 +114,8 @@ When the user asks you to *change* a routine (add sets, swap exercises, adjust t
    Push routine."
 4. **Scope:** you can only edit *routines* (templates). You cannot modify logged workout history.
    If asked to change a past workout, explain this limitation.
+5. **Batch targets — don't wait to be asked.** When analysis produces a per-exercise target list
+   for a named routine (e.g. "next Upper B: Face Pull → 38kg, Bicep Curl → 11kg"), batch all the
+   `change_target` edits into a single combined preview and offer to apply immediately. Show the
+   full list ("Face Pull 38kg was 35kg, Bicep Curl 11kg was 10kg — apply all?"), then on yes apply
+   each in sequence. Don't leave these as a manual todo.

@@ -147,6 +147,61 @@ export interface RoutineInput {
 }
 
 // ---------------------------------------------------------------------------
+// Workout write payload types (POST /workouts)
+// ---------------------------------------------------------------------------
+
+/** A set as sent in a create workout request body. */
+export interface WorkoutSetInput {
+  type: SetType;
+  weight_kg?: number | null;
+  reps?: number | null;
+  distance_meters?: number | null;
+  duration_seconds?: number | null;
+  rpe?: number | null;
+}
+
+/** An exercise as sent in a create workout request body. */
+export interface WorkoutExerciseInput {
+  exercise_template_id: string;
+  superset_id?: number | null;
+  notes?: string | null;
+  sets: WorkoutSetInput[];
+}
+
+/** The top-level body for creating a workout. */
+export interface WorkoutInput {
+  title: string;
+  description?: string | null;
+  start_time: string; // ISO 8601
+  end_time: string;   // ISO 8601
+  is_private?: boolean;
+  exercises: WorkoutExerciseInput[];
+}
+
+// ---------------------------------------------------------------------------
+// Exercise template write payload (POST /exercise_templates)
+// ---------------------------------------------------------------------------
+
+export type CustomExerciseType =
+  | "weight_reps"
+  | "reps_only"
+  | "bodyweight_reps"
+  | "bodyweight_assisted_reps"
+  | "duration"
+  | "weight_duration"
+  | "distance_duration"
+  | "short_distance_weight";
+
+/** Request body for creating a custom exercise template. */
+export interface ExerciseTemplateInput {
+  title: string;
+  exercise_type: CustomExerciseType;
+  equipment_category?: string | null;
+  muscle_group?: string | null;
+  other_muscles?: string[];
+}
+
+// ---------------------------------------------------------------------------
 // Routine edit operations (discriminated union — one operation per call)
 // ---------------------------------------------------------------------------
 

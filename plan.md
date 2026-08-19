@@ -181,33 +181,33 @@
 
 ### Feature A — Sport workout logging
 
-- [ ] `src/hevy/types.ts` — add `WorkoutSetInput`, `WorkoutExerciseInput`, `WorkoutInput`,
+- [x] `src/hevy/types.ts` — add `WorkoutSetInput`, `WorkoutExerciseInput`, `WorkoutInput`,
       `ExerciseTemplateInput` types (mirrors `RoutineInput` pattern; sets carry `duration_seconds`
       + `distance_meters`)
-- [ ] `src/tools/create-exercise-template.ts` — `createExerciseTemplateTool({exercise, confirm?})`:
+- [x] `src/tools/create-exercise-template.ts` — `createExerciseTemplateTool({exercise, confirm?})`:
       no confirm → `{ preview }`; confirm → `hevyPost("/exercise_templates", …)` → `{ created, id, title }`
-- [ ] `src/tools/log-workout.ts` — `logWorkoutTool({workout, confirm?})`:
+- [x] `src/tools/log-workout.ts` — `logWorkoutTool({workout, confirm?})`:
       no confirm → `{ preview }`; confirm → `hevyPost("/workouts", …)` → `{ logged, id, title }`;
       accept exercise names via `resolveExerciseName()` so coach can pass "Running" not a raw ID
-- [ ] `src/cli/tool-runner.ts` — register `create_exercise_template` + `log_workout`
-- [ ] `src/analysis/muscle-groups.ts` — add `cardio: "cardio"` to `movementToMuscle`; add Football/
+- [x] `src/cli/tool-runner.ts` — register `create_exercise_template` + `log_workout`
+- [x] `src/analysis/muscle-groups.ts` — add `cardio: "cardio"` to `movementToMuscle`; add Football/
       Soccer title keyword → map to quadriceps + hamstrings so `get_training_summary` reports leg load
-- [ ] `CLAUDE.md` — remove `## Logging activity` + conditional log read-list; add `log_workout` +
+- [x] `CLAUDE.md` — remove `## Logging activity` + conditional log read-list; add `log_workout` +
       `create_exercise_template` to tool catalog; update scheduling rules reference (Hevy tools, not log)
-- [ ] `skill/coaching-rules.md` — update `### Whole-training scheduling` to read from Hevy tools
-- [ ] Remove `data/training-log.md` (M5 workaround, superseded)
+- [x] `skill/coaching-rules.md` — update `### Whole-training scheduling` to read from Hevy tools
+- [x] Remove `data/training-log.md` (M5 workaround, superseded)
 
 ### Feature B — Auto-apply next-session targets
 
-- [ ] `CLAUDE.md` — add subsection in routine-writing section: when analysis yields per-exercise
+- [x] `CLAUDE.md` — add subsection in routine-writing section: when analysis yields per-exercise
       targets for a named routine, immediately call `get_routines` → batch `preview_routine_edit`
       for each target → show combined summary ("Face Pull 38kg was 35kg, Bicep Curl 11kg was 10kg —
       apply all?") → on yes, `apply_routine_edit` for each in sequence
-- [ ] `skill/coaching-rules.md` — add rule under `## Making changes`: don't wait for the user to
+- [x] `skill/coaching-rules.md` — add rule under `## Making changes`: don't wait for the user to
       ask; show batch preview immediately when analysis produces a target list
 
 ### Tests
-- [ ] `tests/muscle-groups.test.ts` — add assertion that Football title maps to leg muscles in
+- [x] `tests/muscle-groups.test.ts` — add assertion that Football title maps to leg muscles in
       the `get_training_summary` keyword path
 
 ### Verification
@@ -252,3 +252,9 @@
   rep ranges), `src/tools/import-wiki-routine.ts` (draft RoutineInput, writes nothing), registered
   in tool-runner, 16 new parser tests, docs in CLAUDE.md + skill/. 103 tests green, typecheck clean.
   tool that writes nothing. Decisions locked: on-wiki only, auto-match-but-report, progression→notes.
+- 2026-08-19 — M6 committed (feat: sport workout logging + auto-apply targets). Feature A: new
+  types (WorkoutInput, ExerciseTemplateInput), create_exercise_template + log_workout tools with
+  confirm gate, log_workout resolves exercise names via resolveExerciseName, football keyword →
+  quads/hamstrings in get_training_summary, cardio added to movementToMuscle, data/training-log.md
+  removed (superseded). Feature B: batch change_target flow in CLAUDE.md + coaching-rules.md.
+  105 tests green, typecheck clean.

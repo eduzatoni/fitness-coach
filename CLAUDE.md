@@ -11,13 +11,6 @@ assumptions.
 - `skill/progression-rules.md` — how to evaluate progression and plateaus
 - `skill/user-profile.md` — my training context and goals
 
-For **scheduling, recovery, or "should I train X / can I skip / can I switch" questions**, also read:
-
-- `data/training-log.md` — my football and running activity (everything Hevy can't see), for
-  leg-load and fatigue spacing across the full week
-
-Don't load the training log for pure single-exercise questions ("how's my bench?", "should I increase weight?") — only when the answer depends on cross-activity timing or recovery.
-
 ## How to answer training questions
 
 Follow this process for every question:
@@ -161,6 +154,33 @@ Scrapes a thefitness.wiki routine page and returns a draft routine ready to pass
 Use when the user asks to import a named program (e.g. "set me up with 5/3/1 for Beginners",
 "create the r/Fitness beginner routine for me", "import [wiki URL]").
 
+### log_workout
+
+```json
+{ "workout": { "title": "Football Match", "start_time": "2026-08-17T18:00:00Z", "end_time": "2026-08-17T19:30:00Z", "exercises": [{ "exercise_template_id": "<id>", "sets": [{ "type": "normal", "duration_seconds": 5400, "distance_meters": 9500 }] }] } }
+```
+
+Or use `exercise_name` instead of `exercise_template_id` to resolve by name:
+
+```json
+{ "workout": { "title": "Morning Run", "start_time": "2026-08-19T07:00:00Z", "end_time": "2026-08-19T07:45:00Z", "exercises": [{ "exercise_name": "Running", "sets": [{ "type": "normal", "duration_seconds": 2700, "distance_meters": 8000 }] }] } }
+```
+
+Logs a workout to Hevy — football, running, or any session. Supports past `start_time` for backfilling.
+Same confirm gate: omit `confirm` → preview. `"confirm": true` → writes to Hevy.
+Use for: logging football matches/training, runs, or any non-gym session. Football → `distance_duration`
+template. Running → template name "Running" (`exercise_name: "Running"` auto-resolves).
+
+### create_exercise_template
+
+```json
+{ "exercise": { "title": "Football", "exercise_type": "distance_duration", "muscle_group": "full_body", "other_muscles": ["quadriceps", "hamstrings", "cardio"], "equipment_category": "none" } }
+```
+
+Creates a custom exercise template in your Hevy account. Same confirm gate.
+Use once to create "Football" (no built-in template exists). After creation note the returned `id`
+for use in `log_workout`. Running already has a built-in template (`exercise_name: "Running"` resolves it).
+
 ## Recommendation actions (internal)
 
 The analysis engine returns one of these action codes. Use them to reason; never expose them
@@ -280,35 +300,21 @@ Never skip step 2 — the user must see what the auto-match resolved to before a
 4. They say yes → call `apply_routine_edit` with `confirm: true`
 5. Confirm: "Done — bench is now 4 sets in your Push routine."
 
-## Logging activity
+### Auto-applying next-session targets
 
-I track all non-gym physical activity — football, running, anything that loads the legs or creates
-fatigue — in `data/training-log.md`. **Gym sessions are never logged here** — they live in Hevy
-and you read them from the API.
+When analysis produces per-exercise targets for a named routine (e.g. "next Upper B: Face Pull →
+38kg, Bicep Curl → 11kg, Hammer Curl → 11kg"), apply them immediately — do not leave them as a
+manual todo.
 
-When I send a screenshot (Strava, Garmin, a fitness app) or mention an activity ("played football
-today", "did a 10k this morning"), read it and append an entry to the log yourself.
+1. Call `get_routines {}` to confirm the routine ID.
+2. For each target, call `preview_routine_edit` with `change_target`.
+3. Present a **single combined summary**: "I'd make 3 changes to Upper B — Face Pull 38kg (was
+   35kg), Bicep Curl 11kg (was 10kg), Hammer Curl 11kg (was 10kg). Everything else stays the same.
+   Apply all?"
+4. On yes → call `apply_routine_edit` with `confirm: true` for each exercise in sequence.
+5. Confirm: "Done — 3 exercises updated in Upper B."
 
-**This is direct file editing — not a tool.** Edit `data/training-log.md` with your file tools.
-
-**Flow:**
-
-1. **Extract** the facts from the image or message: `{ date, type, duration, details }`.
-   - `type` is `Football`, `Running`, or `Other`.
-   - `details` is a short summary (running: distance + easy/hard; football: match vs. training).
-2. **Infer the load.** You decide the leg and fatigue impact — the user never tags it. Use the
-   load reference table in `data/training-log.md` and `skill/coaching-rules.md`.
-3. **Resolve the date.** Screenshots usually show a date — use it. If the date is ambiguous or
-   missing, ask ("was this today?") rather than guessing.
-4. **Duplicate check.** If a matching entry (same date + type + details) already sits at the top
-   of the log, don't add a second one — say it's already logged.
-5. **Append** one line under `## Log`, newest-first:
-   `- YYYY-MM-DD | TYPE | duration | details | load: legs=<L> fatigue=<L>`
-6. **Confirm** in one coach-voice sentence: "Logged — 90 min football match today, high leg load.
-   I'd hold heavy legs off tomorrow."
-
-Backfilling older sessions is fine — insert them at the correct date position (newest-first order),
-not necessarily at the very top.
+If the user says "everything else stays the same" or equivalent, only change the listed exercises.
 
 ## Coaching tone
 

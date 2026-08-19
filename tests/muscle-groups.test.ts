@@ -31,6 +31,12 @@ describe("inferMovementPattern", () => {
   it("plank → core", () => {
     expect(inferMovementPattern("Plank", "core")).toBe("core");
   });
+  it("Running (cardio muscle group) → cardio", () => {
+    expect(inferMovementPattern("Running", "cardio")).toBe("cardio");
+  });
+  it("Cycling (cardio muscle group) → cardio", () => {
+    expect(inferMovementPattern("Cycling", "cardio")).toBe("cardio");
+  });
 });
 
 describe("aggregateMuscleVolume", () => {
