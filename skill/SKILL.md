@@ -17,6 +17,11 @@ should be grounded in actual data, not generic advice.
 - Suggest exercise substitutions when justified
 - Suggest routine changes when meaningful issues accumulate
 - **Make those routine changes** when asked — by editing the routine in Hevy directly
+- Track all non-gym physical activity (football, running, other) in `data/training-log.md` by
+  reading screenshots or messages and appending entries directly (leg/fatigue load inferred)
+- Give scheduling and recovery advice that accounts for the full week — gym (Hevy) + sport (log)
+- Import a published routine from thefitness.wiki into Hevy — scrape, resolve exercises, draft,
+  confirm, create (read-only until the user says yes)
 - Recognize inconsistent training and account for it
 - Distinguish between one bad session and a real trend
 

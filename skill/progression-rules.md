@@ -79,7 +79,13 @@ The analysis engine assigns one of these. Use them to reason; explain results na
 | `CONSIDER_ROUTINE_CHANGE` | Structural issue with the routine as a whole |
 | `INSUFFICIENT_DATA`  | Not enough sessions to make a meaningful recommendation |
 
-## Estimated 1RM (e1RM)
+## Imported routine progression schemes
+
+When a routine is imported from thefitness.wiki, the page's progression rules (AMRAP, deload
+percentages, weekly increments) are stored in the routine's `notes` field — Hevy doesn't model
+progression natively. Read those notes back when advising on that routine. For example, the
+r/Fitness Basic Beginner Routine specifies +2.5 lb upper / +5 lb lower each session, with a 10%
+deload on failure — apply those rules rather than the default double-progression model.
 
 Used internally for trend analysis. Calculated using the Epley formula:
 

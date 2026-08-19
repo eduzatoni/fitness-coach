@@ -15,6 +15,16 @@
 - Current: ?
 - Target: ?
 
+## Weekly activity schedule
+
+<!-- Recurring, semi-fixed commitments. This is the PLAN — what actually happened is in
+     data/training-log.md. Leave a field blank or "flexible" if it varies week to week. -->
+
+- Football: <!-- e.g. Tue + Thu evenings (training), Sat (match) --> ?
+- Running: <!-- e.g. flexible — usually 1 easy run + 1 longer run per week --> ?
+- Gym: <!-- e.g. Push / Pull / Legs, 3–4×/week, flexible days --> ?
+- Fixed constraints: <!-- e.g. never heavy legs the morning after a match --> ?
+
 ## Experience level
 
 <!-- Beginner / Intermediate / Advanced, and roughly how long you've been training -->

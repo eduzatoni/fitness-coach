@@ -11,6 +11,13 @@ assumptions.
 - `skill/progression-rules.md` — how to evaluate progression and plateaus
 - `skill/user-profile.md` — my training context and goals
 
+For **scheduling, recovery, or "should I train X / can I skip / can I switch" questions**, also read:
+
+- `data/training-log.md` — my football and running activity (everything Hevy can't see), for
+  leg-load and fatigue spacing across the full week
+
+Don't load the training log for pure single-exercise questions ("how's my bench?", "should I increase weight?") — only when the answer depends on cross-activity timing or recovery.
+
 ## How to answer training questions
 
 Follow this process for every question:
@@ -143,6 +150,17 @@ Use for: "how has my training changed?", "am I progressing overall?", "what shou
 recommendations from previous coaching sessions. Use when the user asks "did your advice work?",
 "what did you tell me last time about X?", or "have I followed through on bench?".
 
+### import_wiki_routine
+
+```json
+{ "url": "https://thefitness.wiki/routines/r-fitness-basic-beginner-routine/" }
+```
+
+Scrapes a thefitness.wiki routine page and returns a draft routine ready to pass to `create_routine`.
+**Writes nothing.** Only thefitness.wiki URLs are supported — off-site links are rejected.
+Use when the user asks to import a named program (e.g. "set me up with 5/3/1 for Beginners",
+"create the r/Fitness beginner routine for me", "import [wiki URL]").
+
 ## Recommendation actions (internal)
 
 The analysis engine returns one of these action codes. Use them to reason; never expose them
@@ -229,6 +247,31 @@ folder already exists.
 
 Creates a new routine folder. Same confirm gate — omit `confirm` or pass `false` to preview only.
 
+#### import_wiki_routine
+
+```json
+{ "url": "https://thefitness.wiki/routines/r-fitness-basic-beginner-routine/" }
+```
+
+Scrapes a **thefitness.wiki** routine page, resolves each exercise to a Hevy template, and returns
+a draft `RoutineInput`. **Writes nothing.** Off-site URLs (Reddit, jimwendler.com, etc.) are
+rejected with a clear message.
+
+Returns `{ draft, resolution[], unmatched[], progressionNotes[], sourceUrl }`.
+- `resolution` — each raw exercise name mapped to the best-matched Hevy template title (or `null`).
+  Show this to the user so they can spot any bad matches before creating.
+- `unmatched` — exercise names that couldn't be resolved; surface these so the user can add them manually.
+- `progressionNotes` — progression/deload rules scraped from the page (stored in routine `notes`).
+
+**Mandatory flow:**
+
+1. Call `import_wiki_routine` with the URL.
+2. Show the user the resolved exercise list (`rawName → matched Hevy title`) and any unmatched names.
+3. Get explicit confirmation ("yes", "do it", "go ahead").
+4. Call `create_routine` with `{ "routine": draft, "confirm": true }`.
+
+Never skip step 2 — the user must see what the auto-match resolved to before anything is written.
+
 > "Add a 4th set to bench in my Push routine."
 
 1. Call `get_routines {}` to find the Push routine id
@@ -236,6 +279,36 @@ Creates a new routine folder. Same confirm gate — omit `confirm` or pass `fals
 3. Tell the user: "That would take bench from 3 sets to 4 sets at 80kg × 10. Want me to make that change?"
 4. They say yes → call `apply_routine_edit` with `confirm: true`
 5. Confirm: "Done — bench is now 4 sets in your Push routine."
+
+## Logging activity
+
+I track all non-gym physical activity — football, running, anything that loads the legs or creates
+fatigue — in `data/training-log.md`. **Gym sessions are never logged here** — they live in Hevy
+and you read them from the API.
+
+When I send a screenshot (Strava, Garmin, a fitness app) or mention an activity ("played football
+today", "did a 10k this morning"), read it and append an entry to the log yourself.
+
+**This is direct file editing — not a tool.** Edit `data/training-log.md` with your file tools.
+
+**Flow:**
+
+1. **Extract** the facts from the image or message: `{ date, type, duration, details }`.
+   - `type` is `Football`, `Running`, or `Other`.
+   - `details` is a short summary (running: distance + easy/hard; football: match vs. training).
+2. **Infer the load.** You decide the leg and fatigue impact — the user never tags it. Use the
+   load reference table in `data/training-log.md` and `skill/coaching-rules.md`.
+3. **Resolve the date.** Screenshots usually show a date — use it. If the date is ambiguous or
+   missing, ask ("was this today?") rather than guessing.
+4. **Duplicate check.** If a matching entry (same date + type + details) already sits at the top
+   of the log, don't add a second one — say it's already logged.
+5. **Append** one line under `## Log`, newest-first:
+   `- YYYY-MM-DD | TYPE | duration | details | load: legs=<L> fatigue=<L>`
+6. **Confirm** in one coach-voice sentence: "Logged — 90 min football match today, high leg load.
+   I'd hold heavy legs off tomorrow."
+
+Backfilling older sessions is fine — insert them at the correct date position (newest-first order),
+not necessarily at the very top.
 
 ## Coaching tone
 
