@@ -11,6 +11,21 @@ assumptions.
 - `skill/progression-rules.md` — how to evaluate progression and plateaus
 - `skill/user-profile.md` — my training context and goals
 
+For **running questions** (review, progression, plan next run, scheduling around football):
+
+- `skill/running.md` — running protocol, progression ladder, symptom checks, scheduling rules
+- `skill/running-state.md` — current stage, consecutive successes, last run date
+
+For **scheduling, recovery, or "should I train X / can I skip / can I switch" questions**, also use
+the Hevy tools (`get_recent_workouts`, `get_training_summary`) — football and running are logged
+directly in Hevy and visible there.
+
+Don't load running files for pure gym/strength questions ("how's my bench?").
+
+After reviewing a run, **always tell the user exactly what to update in `skill/running-state.md`**
+(stage index, stage name, consecutive successes count, last run date, notes). The user updates it
+manually — be explicit: "Update running-state.md: consecutive successes → 4, last run → 2026-08-25."
+
 ## How to answer training questions
 
 Follow this process for every question:
@@ -170,6 +185,14 @@ Logs a workout to Hevy — football, running, or any session. Supports past `sta
 Same confirm gate: omit `confirm` → preview. `"confirm": true` → writes to Hevy.
 Use for: logging football matches/training, runs, or any non-gym session. Football → `distance_duration`
 template. Running → template name "Running" (`exercise_name: "Running"` auto-resolves).
+
+**Running set format** — when the screenshot shows interval breakdown (Warm Up / Fast / Cool Down),
+log as 3 sets on the same exercise:
+- Warm Up → `type: "warmup"`, with its distance + duration
+- Fast (main run) → `type: "normal"`, with its distance + duration
+- Cool Down → `type: "dropset"`, with its distance + duration
+
+If only totals are available (no breakdown), log as a single `normal` set.
 
 ### create_exercise_template
 

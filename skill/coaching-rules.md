@@ -63,6 +63,15 @@ scheduling or recovery question, use the Hevy tools; no separate log file needed
 
 Keep answers to one or two sentences with the reason. Don't turn a scheduling question into a lecture.
 
+**Additional running-specific spacing rules:**
+
+- Gym leg day the day before a run → flag it but don't cancel; recommend conservative effort and
+  watch for shin/calf tightness during and after.
+- Long hike (≥2h) → same spacing rule as a football match: avoid running the next day.
+- Daily walk (20 min, non-run days) → contributes low but non-zero leg load. When assessing
+  cumulative fatigue across a busy week, ask whether the user walked that day. Never treat rest
+  days as full recovery — the walk baseline is always there (except travel days).
+
 ### Volume interactions
 
 Before recommending more volume for a muscle group, check what's already being done:

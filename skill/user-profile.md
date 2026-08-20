@@ -6,57 +6,63 @@
 
 ## Goals
 
-<!-- Examples: build strength, add muscle, improve conditioning, maintain fitness -->
-- [ ] Fill in your primary training goal
+- Build strength and muscle (primary gym goal)
+- Improve cardiovascular fitness and running endurance
+- Stay fit, active, and injury-free across gym + running + football
+- Sustainability and long-term health over performance metrics
 
 ## Training frequency
 
-<!-- How many days per week do you typically train? -->
-- Current: ?
-- Target: ?
+- Current: 3–4 gym sessions/week + 2 runs/week + football occasionally
+- Target: maintain and build gradually
 
 ## Weekly activity schedule
 
-<!-- Recurring, semi-fixed commitments. This is the PLAN — what actually happened is in
-     data/training-log.md. Leave a field blank or "flexible" if it varies week to week. -->
+<!-- This is the PLAN — what actually happened is in Hevy. Leave flexible if it varies. -->
 
-- Football: <!-- e.g. Tue + Thu evenings (training), Sat (match) --> ?
-- Running: <!-- e.g. flexible — usually 1 easy run + 1 longer run per week --> ?
-- Gym: <!-- e.g. Push / Pull / Legs, 3–4×/week, flexible days --> ?
-- Fixed constraints: <!-- e.g. never heavy legs the morning after a match --> ?
+- Football: non-fixed, occasional — treat each instance as a load event when it happens
+- Running: Tue/Thu default baseline; flexible around football, gym legs, hikes, travel
+- Gym: Push / Pull / Legs, 3–4×/week, flexible days
+- Fixed constraints: min 1 rest day between football and a run; gym leg day before run = flag
+- Daily walk: 20 min most non-run, non-travel mornings — contributes to leg load baseline
 
 ## Experience level
 
-<!-- Beginner / Intermediate / Advanced, and roughly how long you've been training -->
-- ?
+- Gym: Intermediate (multi-year barbell training)
+- Running: Returning after injuries (rebuilding from injury base, currently stage 7 — see `skill/running-state.md`)
+
+## Location
+
+- Switzerland
 
 ## Preferred training style
 
-<!-- Examples: barbell-focused, hypertrophy (higher rep), powerlifting, push-pull-legs, full body -->
-- ?
+- Barbell-focused strength training (gym)
+- Run/walk interval progression for running (injury-safe, see `skill/running.md`)
 
 ## Available equipment
 
-<!-- Gym type: commercial gym / home gym / barbell only / dumbbells only / etc. -->
-- ?
+- Commercial gym
 
 ## Exercise preferences and dislikes
 
-<!-- Exercises you enjoy or want to prioritize, and any you want to avoid -->
 - Prefer: ?
 - Avoid: ?
 
 ## Injuries or constraints
 
-<!-- Any injuries, mobility limitations, or movements to avoid -->
-- ?
+- **Shin splints** (history) — tissue adaptation always takes priority over CV fitness; never rush
+  running progression
+- **Ankle ligament reconstruction** (history) — monitor ankle discomfort after runs and football
+- **Knee problems** (history) — watch for knee discomfort, especially after football or downhill
+- Musculoskeletal system adapts slower than cardiovascular — this governs all running decisions
 
 ## Default rep range
 
-<!-- The rep range to use for double-progression when no specific range is configured -->
 - Default: 8–12
 
 ## Notes
 
-<!-- Any other context that should inform coaching recommendations -->
-- ?
+- Cardiovascular fitness develops faster than musculoskeletal system — tissue adaptation first
+- No day is truly zero-load (daily walks contribute low baseline leg load on rest days)
+- Travel days = lower baseline (assume no walk)

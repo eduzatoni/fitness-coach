@@ -221,6 +221,27 @@
       Apply?" → confirm → `get_routines` shows updated target
 - [ ] `npm test` green (including new muscle-groups assertion)
 
+## M7 — Merge running-coach skill  `feat:`
+
+> Fold the standalone running-coach skill into this project so one coach handles everything.
+> Run history lives in Hevy; state (stage, successes) lives in `skill/running-state.md`.
+> Zero source-code changes — skill files + docs only.
+>
+> Key decisions: pace range is a starting point (not locked); ladder ends at 30min then shifts
+> to pace; scheduling is flexible + proactive; goals include muscle building + fitness; daily
+> walks not logged but factored in via coach questions.
+
+- [x] `skill/running.md` — full protocol: philosophy, pace, ladder, scheduling, proactive
+      planning, run review, Hevy data reading, symptom check, progression assessment, daily walks
+- [x] `skill/running-state.md` — mutable state file (stage 7, 3 successes, last run 2026-08-20,
+      eligible for stage 8)
+- [x] `skill/user-profile.md` — filled in: goals, injury history (shin splints, ankle recon,
+      knee), weekly schedule, location (Switzerland), experience level
+- [x] `skill/coaching-rules.md` — added running-specific spacing rules (gym-legs-before-run,
+      hike ≥2h, daily walk baseline + ask pattern)
+- [x] `CLAUDE.md` — scoped read-list (running.md + running-state.md for running questions);
+      post-session instruction to tell user exactly what to update in running-state.md
+
 ---
 
 ## Verification checklist
