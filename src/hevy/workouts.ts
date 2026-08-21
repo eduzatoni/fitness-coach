@@ -8,21 +8,22 @@ export async function getRecentWorkouts(
   limit: number,
   options: { refresh?: boolean } = {}
 ): Promise<HevyWorkout[]> {
-  // Hevy's max pageSize is 10; fetch enough pages to cover limit
-  const pageSize = Math.min(limit, 10);
-  const pagesNeeded = Math.ceil(limit / pageSize);
+  // Fetch all pages so we can sort by date — API order is unreliable after bulk imports
   const results: HevyWorkout[] = [];
+  let page = 1;
 
-  for (let page = 1; page <= pagesNeeded && results.length < limit; page++) {
+  while (true) {
     const data = await hevyGet<{ workouts: HevyWorkout[]; page_count: number }>(
       "/workouts",
-      { page, pageSize },
+      { page, pageSize: 10 },
       options
     );
     results.push(...data.workouts);
     if (page >= data.page_count) break;
+    page++;
   }
 
+  results.sort((a, b) => b.start_time.localeCompare(a.start_time));
   return results.slice(0, limit);
 }
 
