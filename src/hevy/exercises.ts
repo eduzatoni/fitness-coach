@@ -17,16 +17,16 @@ export async function getAllExerciseTemplates(
   return templates;
 }
 
-/** Resolve an exercise name (fuzzy, case-insensitive) to its template id and canonical title. */
+/** Resolve an exercise name (fuzzy, case-insensitive) to its template id, canonical title, and metadata. */
 export async function resolveExerciseName(
   name: string,
   options: { refresh?: boolean } = {}
-): Promise<{ id: string; title: string } | null> {
+): Promise<{ id: string; title: string; primary_muscle_group: string; type: string } | null> {
   const templates = await getAllExerciseTemplates(options);
   const normalized = name.toLowerCase().trim();
 
   const match = findBestTemplateMatch(templates, normalized);
-  if (match) return { id: match.id, title: match.title };
+  if (match) return { id: match.id, title: match.title, primary_muscle_group: match.primary_muscle_group, type: match.type };
 
   return null;
 }

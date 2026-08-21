@@ -100,3 +100,49 @@ export function doubleProgressionStatus(
   if (anyBelowMin) return "below_range";
   return "progressing";
 }
+
+/**
+ * Count trailing sessions (newest → oldest) that hit the top of the rep range
+ * at the SAME topWeight as the most recent session. Resets at any weight change.
+ * Used for the 2-for-2 rule: require streak >= 2 before adding weight.
+ */
+export function consecutiveTopRangeSessions(
+  sessions: SessionMetrics[],
+  repRange: [number, number] = [8, 12]
+): number {
+  if (sessions.length === 0) return 0;
+  const latestWeight = sessions[sessions.length - 1]!.topWeight;
+  let streak = 0;
+  for (let i = sessions.length - 1; i >= 0; i--) {
+    const s = sessions[i]!;
+    if (s.topWeight !== latestWeight) break;
+    if (doubleProgressionStatus(s.sets, repRange) !== "hit_top") break;
+    streak++;
+  }
+  return streak;
+}
+
+/**
+ * Within-session rep drop-off ratio: (firstSetReps - lastSetReps) / firstSetReps.
+ * Returns 0 if there are fewer than 2 sets or firstSetReps is 0.
+ * A ratio > 0.40 is a fatigue signature warranting load reduction.
+ */
+export function repDropoffRatio(sets: WorkingSet[]): number {
+  if (sets.length < 2) return 0;
+  const first = sets[0]!.reps;
+  const last = sets[sets.length - 1]!.reps;
+  if (first === 0) return 0;
+  return Math.max(0, (first - last) / first);
+}
+
+/**
+ * Whole-day gap between the last two session dates.
+ * Returns null if fewer than 2 sessions are available.
+ */
+export function daysSinceLast(sessions: SessionMetrics[]): number | null {
+  if (sessions.length < 2) return null;
+  const prev = sessions[sessions.length - 2]!.date;
+  const curr = sessions[sessions.length - 1]!.date;
+  const ms = new Date(curr).getTime() - new Date(prev).getTime();
+  return Math.round(ms / (1000 * 60 * 60 * 24));
+}

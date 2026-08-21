@@ -1,97 +1,133 @@
 # Progression Rules
 
-## Double progression
+## Evidence base
 
-The primary progression model. Works with a target rep range (e.g. 3×8–12).
+Rules are grounded in peer-reviewed and widely-adopted sources:
 
-1. Start at the bottom of the rep range or below
-2. Add reps over sessions until all sets hit the top of the range
-3. Increase weight (typically 2.5kg for upper body, 5kg for lower body)
-4. Reps drop — work back up to the top of the range again
+- **ACSM Position Stand (2009)** — *Progression Models in Resistance Training for Healthy Adults* —
+  load increment band (2–10%), rep ranges by goal.
+- **NSCA** — *Essentials of Strength Training and Conditioning* — 2-for-2 progression rule.
+- **StrongLifts 5×5** — concrete per-category increments (5 lb upper / 10 lb lower).
+- **Renaissance Periodization** — volume landmarks (MV/MEV/MAV/MRV), deload ~10% guidance.
+- **Epley (1985)** — e1RM formula; reliable only for reps ≤ ~12.
 
-### Worked example (3×8–12)
+## Double progression — the primary model
 
-| Session | Weight | Reps       | Action         |
-|---------|--------|------------|----------------|
-| 1       | 80kg   | 10/10/9    | maintain       |
-| 2       | 80kg   | 11/10/10   | maintain       |
-| 3       | 80kg   | 12/12/12   | **increase**   |
-| 4       | 82.5kg | 9/8/8      | maintain ← not regression |
-| 5       | 82.5kg | 10/9/9     | maintain       |
-| 6       | 82.5kg | 11/11/10   | maintain       |
-| 7       | 82.5kg | 12/12/12   | **increase**   |
+Work within a target rep range (e.g. 3×8–12). Add reps over sessions until all sets hit the top of
+the range **twice in a row** (2-for-2 rule), then add weight.
+
+### 2-for-2 rule (NSCA)
+
+A single strong session isn't enough to justify adding load — it might be a good day. The athlete
+must hit the top of the range on **all sets for two consecutive sessions** at the same weight before
+weight is increased. A single top session returns `MAINTAIN` with a note to confirm next session.
+
+### Worked example (3×8–12, upper compound → +2.5 kg)
+
+| Session | Weight | Reps       | Action                         |
+|---------|--------|------------|-------------------------------|
+| 1       | 80 kg  | 8/8/8      | `INCREASE_REPS` (climbing)     |
+| 2       | 80 kg  | 10/9/9     | `INCREASE_REPS`                |
+| 3       | 80 kg  | 11/10/10   | `INCREASE_REPS`                |
+| 4       | 80 kg  | 12/12/12   | `MAINTAIN` — topped once, confirm next |
+| 5       | 80 kg  | 12/12/12   | `INCREASE_WEIGHT` → 82.5 kg   |
+| 6       | 82.5 kg| 9/8/8      | `MAINTAIN` (post-bump, normal) |
+| 7       | 82.5 kg| 10/9/9     | `INCREASE_REPS`                |
+| 8       | 82.5 kg| 12/12/11   | `INCREASE_REPS`                |
+| 9       | 82.5 kg| 12/12/12   | `MAINTAIN` — topped once, confirm |
+| 10      | 82.5 kg| 12/12/12   | `INCREASE_WEIGHT` → 85 kg      |
 
 A rep drop right after a weight increase is **expected and normal**. Do not classify it as
-regression or a bad session.
+regression or a bad session (`isPostBumpAdjustment` is detected; action stays `MAINTAIN`).
 
-## Plateau detection
+## Load increments by movement class (ACSM 2–10% band)
 
-A plateau requires **multiple properly spaced sessions** with flat metrics — not one or two.
+| Movement class | Nominal increment | Plate step | Examples |
+|---|---|---|---|
+| Large compound | +5 kg | 2.5 kg | Squat, deadlift, leg press, hip thrust, RDL |
+| Upper compound | +2.5 kg | 2.5 kg | Bench, OHP, row, lat pulldown, pull-up |
+| Isolation | +2.5 kg (clamped) | 0.5 kg | Curl, extension, lateral raise, fly, calf raise |
 
-Conditions that must be true for a plateau classification:
-- At least 4 sessions separated by at least 3 days each
-- e1RM has not meaningfully improved from first to last session in the window
-- Weight and total reps have not changed
+Increment is clamped to 2–10% of the current working weight. If rounding would return the same
+weight (e.g. very light loads), one plate step is added to guarantee forward progress. The increment
+class is inferred from the exercise's `MovementPattern` (derived from title + primary muscle group).
+
+## Rep range by exercise role
+
+| Role | Range | Notes |
+|---|---|---|
+| All compounds (squat/hinge/push/pull) + isolation | **8–12** | Best-supported hypertrophy range for goal "build strength and muscle" |
+| Core / abdominals / calves | **12–20** | High-rep-biased muscles respond better to higher volume |
+| Strength (opt-in) | **3–5** | Pass `goal: "strength"` or explicit `repRange` to the tool |
+
+The `analyze_exercise` tool auto-assigns the range based on the exercise's movement pattern and
+primary muscle group. An explicit `repRange` or `goal` argument always overrides.
+
+## Plateau detection and escalation
+
+A plateau requires **multiple properly-spaced sessions** with flat metrics — not one or two bad days.
+
+Conditions for a plateau classification (`detectPlateau`):
+- At least **4 sessions separated by ≥3 days each** in the window.
+- e1RM, weight, and total reps all flat within **2%** across those sessions.
+
+### Deload-first ladder (RP / StrongLifts)
+
+1. **First plateau** → `REDUCE_WEIGHT` by ~10% and re-progress. Do not jump to exercise replacement.
+2. **Plateau persists after a deload** → `CONSIDER_REPLACEMENT` (rep-range change or exercise variation).
 
 ### Not a plateau
 
-- One bad session: reps dropped once
-- Two sessions at the same weight (could be the user is still building into the weight)
-- A rep drop right after increasing weight
-- Sessions that are too close together (back-to-back days, deload week)
-- A return from a break (first session back is always below baseline)
+- One bad session: reps dropped once.
+- Two sessions at the same weight (could still be building into the weight).
+- A rep drop right after a weight increase.
+- Sessions too close together (back-to-back days, deload week).
+- A return from a break (first session back is always below baseline — handled separately).
 
-### Plateau example
-
-```
-65kg × 10/10/10
-65kg × 10/10/10
-65kg × 10/9/10
-65kg × 10/10/9
-65kg × 10/10/10
-```
-
-Five sessions, each properly spaced, with no net e1RM gain → plateau.
-
-### Not a plateau example
-
-```
-80kg × 10/10/9
-80kg × 9/9/8
-```
-
-Two sessions, reps dropped once. This is noise, not a trend.
-
-## Recommendation categories
+## Recommendation actions
 
 The analysis engine assigns one of these. Use them to reason; explain results naturally.
 
-| Action               | Meaning |
-|----------------------|---------|
-| `INCREASE_WEIGHT`    | All sets hit the top of the rep range — ready to go up |
-| `INCREASE_REPS`      | Weight is solid; focus on adding reps before increasing weight |
-| `MAINTAIN`           | Still progressing or recently increased weight — stay the course |
-| `MONITOR`            | Something is off but not enough data to act — watch next session |
-| `REDUCE_WEIGHT`      | Performance has dropped significantly — deload or reduce |
-| `ADD_SET`            | Volume appears insufficient for the goal |
-| `REMOVE_SET`         | Possible accumulated fatigue; trimming volume might help |
-| `CONSIDER_REPLACEMENT` | Long-term plateau with no improvement — try a variation |
-| `CONSIDER_ROUTINE_CHANGE` | Structural issue with the routine as a whole |
-| `INSUFFICIENT_DATA`  | Not enough sessions to make a meaningful recommendation |
+| Action | Engine condition | Meaning |
+|---|---|---|
+| `INCREASE_WEIGHT` | Hit top of range × 2 consecutive sessions (2-for-2) | Ready to go up — target is the computed next load |
+| `INCREASE_REPS` | Reps climbing within range, not plateaued | Hold weight; add reps before increasing load |
+| `MAINTAIN` | Topped range once (awaiting confirmation), or recently increased weight | Stay the course |
+| `MONITOR` | Reps dipped below range, weight same, not plateaued | One bad session — watch next session before acting |
+| `REDUCE_WEIGHT` | Plateau (deload), regressing e1RM, >40% within-session rep drop-off, or return from >21-day layoff | Target is the computed reduced load |
+| `ADD_SET` | (reserved — not yet emitted) | Volume insufficient for goal |
+| `REMOVE_SET` | (reserved — not yet emitted) | Accumulated fatigue, trim volume |
+| `CONSIDER_REPLACEMENT` | Plateau persists after a prior deload | Try a rep-range change or exercise variation |
+| `CONSIDER_ROUTINE_CHANGE` | (reserved) | Structural routine issue |
+| `INSUFFICIENT_DATA` | Fewer than 2 sessions | Not enough history |
 
-## Imported routine progression schemes
+## REDUCE_WEIGHT triggers
 
-When a routine is imported from thefitness.wiki, the page's progression rules (AMRAP, deload
-percentages, weekly increments) are stored in the routine's `notes` field — Hevy doesn't model
-progression natively. Read those notes back when advising on that routine. For example, the
-r/Fitness Basic Beginner Routine specifies +2.5 lb upper / +5 lb lower each session, with a 10%
-deload on failure — apply those rules rather than the default double-progression model.
+Weight reduction is recommended when **any** of these conditions hold:
 
-Used internally for trend analysis. Calculated using the Epley formula:
+1. **Plateau (first time)** — flat e1RM + weight + reps across ≥4 spaced sessions → deload ~10%.
+2. **Regressing e1RM** — downward trend across sessions, **only when reps ≤ ~12** (Epley is
+   unreliable above ~12 reps; at higher rep ranges, reps/volume trend is used instead).
+3. **Within-session rep drop-off >40%** — e.g. sets of 12, 10, 6 = 50% drop → fatigue signature;
+   the load exceeds what can be maintained across sets.
+4. **Return from layoff (>21 days)** — start ~10% lower to reintroduce load safely.
+
+## e1RM (Epley formula)
 
 ```
 e1RM = weight × (1 + reps / 30)
 ```
 
-Best set (highest e1RM) per session is used for trend calculations.
-Warmup sets are excluded from all working-set metrics.
+Used for trend analysis (one e1RM number per session, best set). Warmup sets excluded.
+
+**Reliability caveat:** Epley diverges meaningfully from Brzycki and real measured 1RMs above ~12 reps.
+The engine only uses e1RM to trigger `REDUCE_WEIGHT` or judge trend when `maxRepsInSession ≤ 12`. For
+higher-rep work (core, calves, endurance sets), the engine judges progress by reps and volume instead.
+
+## Imported routine progression schemes
+
+When a routine is imported from thefitness.wiki, the page's progression rules (AMRAP, deload
+percentages, weekly increments) are stored in the routine's `notes` field. Read those notes back when
+advising on that routine. For example, the r/Fitness Basic Beginner Routine specifies +2.5 lb upper /
++5 lb lower each session, with a 10% deload on failure — apply those rules rather than the default
+double-progression model.

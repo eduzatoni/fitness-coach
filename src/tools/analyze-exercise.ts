@@ -4,6 +4,8 @@ import { workingSets } from "../analysis/estimated-1rm.js";
 import { recommendExercise } from "../analysis/recommendations.js";
 import { performanceTrend } from "../analysis/trend.js";
 import { detectPlateau } from "../analysis/plateau.js";
+import { inferMovementPattern } from "../analysis/muscle-groups.js";
+import { repRangeForExercise, REP_RANGE_FOR, type TrainingGoal } from "../analysis/load-increment.js";
 
 interface RecentSession {
   date: string;
@@ -18,6 +20,7 @@ export async function analyzeExerciseTool(args: {
   exercise: string;
   sessions?: number;
   repRange?: [number, number];
+  goal?: TrainingGoal;
   refresh?: boolean;
 }): Promise<{
   exercise: string;
@@ -34,13 +37,24 @@ export async function analyzeExerciseTool(args: {
 }> {
   const targetSessions = args.sessions ?? 10;
   const limit = Math.min(targetSessions * 5, 100);
-  const repRange = args.repRange ?? ([8, 12] as [number, number]);
   const opts = { refresh: args.refresh };
 
   const [workouts, resolved] = await Promise.all([
     getRecentWorkouts(limit, opts),
     resolveExerciseName(args.exercise, opts),
   ]);
+
+  // Derive movement context from the resolved Hevy template
+  const primaryMuscle = resolved?.primary_muscle_group ?? "";
+  const movementPattern = resolved
+    ? inferMovementPattern(resolved.title, primaryMuscle)
+    : undefined;
+
+  // Rep range priority: explicit repRange arg > goal arg > auto-assign by exercise role
+  const repRange: [number, number] =
+    args.repRange ??
+    (args.goal ? REP_RANGE_FOR[args.goal] : null) ??
+    repRangeForExercise(movementPattern, primaryMuscle);
 
   // Use shared session collector for the SessionMetrics list
   const sessionList = collectExerciseSessions(workouts, resolved, args.exercise, targetSessions);
@@ -91,7 +105,7 @@ export async function analyzeExerciseTool(args: {
 
   const trend = performanceTrend(sessionList);
   const plateau = detectPlateau(sessionList);
-  const rec = recommendExercise(sessionList, repRange);
+  const rec = recommendExercise(sessionList, repRange, { movementPattern, primaryMuscle, goal: args.goal });
 
   let e1RMTrend: number | null = null;
   if (prev?.best1RM && latest.best1RM) {
