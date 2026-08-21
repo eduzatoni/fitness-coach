@@ -37,7 +37,7 @@
 
 ## Preferred training style
 
-- Barbell-focused strength training (gym)
+- Varied — comfortable with barbells, dumbbells, cables, machines, and bodyweight
 - Run/walk interval progression for running (injury-safe, see `skill/running.md`)
 
 ## Available equipment

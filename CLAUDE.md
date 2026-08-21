@@ -16,11 +16,49 @@ For **running questions** (review, progression, plan next run, scheduling around
 - `skill/running.md` — running protocol, progression ladder, symptom checks, scheduling rules
 - `skill/running-state.md` — current stage, consecutive successes, last run date
 
+For **weekly planning / "plan my week" / "what should I train this week" questions**, also read:
+
+- `skill/schedule.md` — fixed availability (incl. time windows), dated one-off events, and how to
+  plan a week
+
 For **scheduling, recovery, or "should I train X / can I skip / can I switch" questions**, also use
 the Hevy tools (`get_recent_workouts`, `get_training_summary`) — football and running are logged
-directly in Hevy and visible there.
+directly in Hevy and visible there. For weekly planning, `skill/schedule.md` holds the user's fixed
+availability and dated events; combine it with recent Hevy load and the spacing rules in
+`skill/coaching-rules.md` to produce the plan.
 
 Don't load running files for pure gym/strength questions ("how's my bench?").
+
+## Maintaining the schedule
+
+`skill/schedule.md` is the one skill file the coach is allowed to write. When the user says "add
+football Monday at 7pm" or "remove Tuesday's event" or "I have travel next week Wed–Fri", edit the
+file directly and confirm in one sentence. Capture time-of-day when given — it matters for window
+planning. No separate confirmation step needed for clear add/remove instructions (the file is
+low-stakes; the user can ask to undo verbally).
+
+When reading the file for planning, prune any past-dated events (before today) as you go.
+
+## Planning a week
+
+When the user asks "plan my week" or equivalent:
+
+1. Read `skill/schedule.md` — fixed constraints (incl. time windows) + dated events. Prune any
+   past-dated events.
+2. Call `get_recent_workouts` (limit 7) — see what was actually trained in the last ~7 days so the
+   plan accounts for real fatigue, not just the calendar.
+3. Read `skill/running-state.md` — get the next run target (stage + distance/duration).
+4. Lay out Mon–Sun: immovable events first, then slot gym (PPL rotation) + runs into open windows,
+   honoring spacing rules from `skill/coaching-rules.md`. On German days (Tue/Thu): run 07:30 →
+   work → gym ~17:00–18:00 → German 18:20. Always include a gym session — the window is tight but
+   real; don't drop it pre-emptively. Football-to-legs: use actual kick-off time, not "48h" — the
+   day after any football match defaults to upper body or rest.
+5. Output a day-by-day plan with the specific run target, which PPL session lands where, and a
+   one-line note per non-obvious placement. **Write the plan to `data/weekly-plan.md`** (overwrite
+   each time) so the user can reference it outside the conversation.
+6. If a window later collapses ("work ran long, can't train today"), re-slot the missed session
+   into the nearest valid open day without breaking spacing, and update `schedule.md` if a dated
+   event moved.
 
 After reviewing a run, **always tell the user exactly what to update in `skill/running-state.md`**
 (stage index, stage name, consecutive successes count, last run date, notes). The user updates it

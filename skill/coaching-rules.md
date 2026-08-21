@@ -63,6 +63,42 @@ scheduling or recovery question, use the Hevy tools; no separate log file needed
 
 Keep answers to one or two sentences with the reason. Don't turn a scheduling question into a lecture.
 
+### Planning a full week
+
+When the user asks "plan my week" or equivalent, run this sequence:
+
+1. **Read `skill/schedule.md`** — fixed recurring constraints (work hours, German class 18:20–20:30
+   Tue/Thu, etc.) + dated one-off events. Prune past-dated events from the file as you go.
+2. **Pull real load:** `get_recent_workouts` (limit 7) — what was actually trained/played in the
+   last several days, so the plan reflects real fatigue, not just the calendar.
+3. **Read `skill/running-state.md`** — current stage + next run target (distance/duration).
+4. **Lay out the week (Mon–Sun):**
+   - Place immovable events first (football match, travel, German class blocks).
+   - Slot gym (PPL rotation based on what was last done in Hevy) + runs into open windows.
+   - Apply spacing rules:
+     - No heavy leg day within ~24h after football or a hard/long run.
+     - No hard/long run the day after a heavy gym leg day.
+     - Min 1 rest day between football and a run.
+     - Upper-body gym is fine adjacent to sport.
+     - Avoid two high-leg-load days back to back.
+   - **German days (Tue/Thu) get a full schedule:** run 07:30 → work → gym ~17:00–18:00 → German
+     18:20. Always plan a gym session on these days unless there's a specific conflict. The gym
+     window (~17:00–18:15) is tight but real. If work runs long and the window is gone, the user
+     will say so — don't pre-emptively drop the session.
+   - **Football-to-legs spacing:** use actual kick-off time, not "48h." A Sunday 10:00 match means
+     Monday gym is ~24h later — legs are still taxed. A Sunday 16:00 match means Monday is even
+     less recovered. Default: avoid heavy legs the day after a football match regardless of the
+     exact gap; steer toward upper body or rest instead.
+   - On days where work may overrun past ~17:30, note the gym session as "evening — may need to
+     reschedule if work runs long."
+5. **Output:** day-by-day Mon–Sun plan. Include: specific run target from running-state, which PPL
+   session (Push/Pull/Legs), time context where constrained, one-line note per non-obvious choice.
+   **Write the plan to `data/weekly-plan.md`** (overwrite each time) so the user can reference it
+   outside the conversation.
+6. **Reschedule-on-the-go:** if the user later says "work ran long, no gym today," re-slot that
+   session into the nearest valid open day without breaking spacing. Update `skill/schedule.md` if a
+   dated event moved.
+
 **Additional running-specific spacing rules:**
 
 - Gym leg day the day before a run → flag it but don't cancel; recommend conservative effort and
