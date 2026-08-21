@@ -15,6 +15,7 @@ import { createRoutineFolderTool, getRoutineFoldersTool } from "../tools/routine
 import { importWikiRoutineTool } from "../tools/import-wiki-routine.js";
 import { createExerciseTemplateTool } from "../tools/create-exercise-template.js";
 import { logWorkoutTool } from "../tools/log-workout.js";
+import { importSmartgymHistoryTool } from "../tools/import-smartgym-history.js";
 
 const TOOLS: Record<string, (args: Record<string, unknown>) => Promise<unknown>> = {
   get_recent_workouts: (a) => getRecentWorkoutsTool(a as Parameters<typeof getRecentWorkoutsTool>[0]),
@@ -33,6 +34,7 @@ const TOOLS: Record<string, (args: Record<string, unknown>) => Promise<unknown>>
   import_wiki_routine: (a) => importWikiRoutineTool(a as Parameters<typeof importWikiRoutineTool>[0]),
   create_exercise_template: (a) => createExerciseTemplateTool(a as Parameters<typeof createExerciseTemplateTool>[0]),
   log_workout: (a) => logWorkoutTool(a as Parameters<typeof logWorkoutTool>[0]),
+  import_smartgym_history: (a) => importSmartgymHistoryTool(a as Parameters<typeof importSmartgymHistoryTool>[0]),
 };
 
 async function main() {
