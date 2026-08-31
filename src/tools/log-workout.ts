@@ -1,4 +1,4 @@
-import { hevyPost } from "../hevy/client.js";
+import { hevyPost, invalidateCache } from "../hevy/client.js";
 import { resolveExerciseName } from "../hevy/exercises.js";
 import type { WorkoutInput, WorkoutExerciseInput, HevyWorkout } from "../hevy/types.js";
 
@@ -38,5 +38,6 @@ export async function logWorkoutTool(args: {
   }
 
   const result = await hevyPost<{ workout: HevyWorkout }>("/workouts", { workout });
+  invalidateCache("/workouts");
   return { logged: true, id: result.workout.id, title: result.workout.title };
 }

@@ -9,7 +9,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { hevyPost } from "../hevy/client.js";
+import { hevyPost, invalidateCache } from "../hevy/client.js";
 import type { WorkoutInput } from "../hevy/types.js";
 import { parseSmartgymHistory } from "../import/smartgym-parse.js";
 import {
@@ -141,6 +141,9 @@ export async function importSmartgymHistoryTool(args: ImportSmartgymArgs): Promi
       });
     }
   }
+
+  // If anything was written, the cached workout list is stale.
+  if (logged > 0) invalidateCache("/workouts");
 
   return { imported: { logged, skipped, failed } };
 }
