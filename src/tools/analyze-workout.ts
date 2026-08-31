@@ -1,7 +1,9 @@
 import { getRecentWorkouts, getWorkoutById } from "../hevy/workouts.js";
+import { resolveExerciseById } from "../hevy/exercises.js";
 import { workingSets } from "../analysis/estimated-1rm.js";
 import { sessionMetrics, compareSessionPair } from "../analysis/progression.js";
 import { recommendExercise } from "../analysis/recommendations.js";
+import { inferMovementPattern } from "../analysis/muscle-groups.js";
 import { totalVolume } from "../analysis/volume.js";
 
 interface ExerciseSummary {
@@ -95,7 +97,10 @@ export async function analyzeWorkoutTool(args: {
       };
 
       const allSessions = [...prevSessions, currMetrics];
-      const rec = recommendExercise(allSessions);
+      const template = await resolveExerciseById(ex.exercise_template_id, opts);
+      const primaryMuscle = template?.primary_muscle_group ?? "";
+      const movementPattern = template ? inferMovementPattern(template.title, primaryMuscle) : undefined;
+      const rec = recommendExercise(allSessions, undefined, { movementPattern, primaryMuscle, equipment: template?.equipment_category });
       recommendation = rec.recommendation;
 
       if (rec.plateaued) {

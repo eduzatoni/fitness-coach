@@ -21,14 +21,23 @@ export async function getAllExerciseTemplates(
 export async function resolveExerciseName(
   name: string,
   options: { refresh?: boolean } = {}
-): Promise<{ id: string; title: string; primary_muscle_group: string; type: string } | null> {
+): Promise<{ id: string; title: string; primary_muscle_group: string; type: string; equipment_category?: string | null } | null> {
   const templates = await getAllExerciseTemplates(options);
   const normalized = name.toLowerCase().trim();
 
   const match = findBestTemplateMatch(templates, normalized);
-  if (match) return { id: match.id, title: match.title, primary_muscle_group: match.primary_muscle_group, type: match.type };
+  if (match) return { id: match.id, title: match.title, primary_muscle_group: match.primary_muscle_group, type: match.type, equipment_category: match.equipment_category };
 
   return null;
+}
+
+/** Resolve an exercise template by its ID. */
+export async function resolveExerciseById(
+  id: string,
+  options: { refresh?: boolean } = {}
+): Promise<HevyExerciseTemplate | null> {
+  const templates = await getAllExerciseTemplates(options);
+  return templates.find((t) => t.id === id) ?? null;
 }
 
 /**

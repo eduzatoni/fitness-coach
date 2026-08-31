@@ -105,7 +105,7 @@ export async function analyzeExerciseTool(args: {
 
   const trend = performanceTrend(sessionList);
   const plateau = detectPlateau(sessionList);
-  const rec = recommendExercise(sessionList, repRange, { movementPattern, primaryMuscle, goal: args.goal });
+  const rec = recommendExercise(sessionList, repRange, { movementPattern, primaryMuscle, goal: args.goal, equipment: resolved?.equipment_category });
 
   let e1RMTrend: number | null = null;
   if (prev?.best1RM && latest.best1RM) {

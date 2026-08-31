@@ -42,6 +42,15 @@ export function roundToStep(value: number, step: number): number {
   return Math.round(value / step) * step;
 }
 
+/**
+ * Snap a weight to the nearest available dumbbell at this gym.
+ * 1–10 kg: every 1 kg. Above 10 kg: every 2 kg. Always rounds up.
+ */
+export function snapToAvailableDumbbell(weight: number): number {
+  if (weight <= 10) return Math.ceil(weight);
+  return Math.ceil(weight / 2) * 2;
+}
+
 /** Map a MovementPattern to an IncrementClass. Defaults to upper_compound. */
 export function movementClassFor(pattern: MovementPattern | undefined): IncrementClass {
   if (pattern === "squat" || pattern === "hinge") return "large_compound";
@@ -86,14 +95,20 @@ export function incrementFor(cls: IncrementClass, currentWeightKg: number): numb
 }
 
 /**
- * Next working weight: current + clamped increment, rounded to the plate step.
+ * Next working weight: current + clamped increment, rounded to available equipment steps.
+ * For dumbbells, snaps to actual gym availability (1 kg steps ≤10 kg, 2 kg steps above).
  * Guarantees forward progress — if rounding would return the current weight, bump by one step.
  */
-export function nextWeight(currentWeightKg: number, cls: IncrementClass): number {
+export function nextWeight(currentWeightKg: number, cls: IncrementClass, equipment?: string | null): number {
   const delta = incrementFor(cls, currentWeightKg);
+  const isDumbbell = equipment?.toLowerCase().includes("dumbbell");
+  if (isDumbbell) {
+    const candidate = snapToAvailableDumbbell(currentWeightKg + delta);
+    if (candidate <= currentWeightKg) return snapToAvailableDumbbell(currentWeightKg + 1);
+    return candidate;
+  }
   const step = PLATE_STEP_KG[cls];
   const candidate = roundToStep(currentWeightKg + delta, step);
-  // Guard: ensure we always move forward
   if (candidate <= currentWeightKg) return currentWeightKg + step;
   return candidate;
 }

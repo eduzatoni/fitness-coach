@@ -39,6 +39,7 @@ export interface HevyExerciseTemplate {
   primary_muscle_group: string;
   secondary_muscle_groups: string[];
   is_custom: boolean;
+  equipment_category?: string | null;
 }
 
 export interface HevyRoutineSet {
