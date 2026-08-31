@@ -46,6 +46,10 @@ describe("recommendations — fixture scenarios", () => {
     expect(result.recommendation.target).not.toBe("80kg");
     expect(result.targetWeightKg).toBeDefined();
     expect(result.targetWeightKg!).toBeGreaterThan(80);
+    // Double progression: adding load resets reps to the bottom of the range
+    expect(result.targetReps).toBe(REP_RANGE[0]);
+    expect(result.recommendation.target).toContain(`× ${REP_RANGE[0]}`);
+    expect(result.recommendation.reason).toMatch(/drop back to \d+ reps/);
   });
 
   it("post weight-increase rep drop → MAINTAIN (not regression)", () => {

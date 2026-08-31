@@ -33,6 +33,7 @@ export interface RecommendationContext {
   movementPattern?: MovementPattern;
   primaryMuscle?: string;
   goal?: TrainingGoal;
+  equipment?: string | null;
 }
 
 export interface ExerciseRecommendation {
@@ -42,6 +43,8 @@ export interface ExerciseRecommendation {
   plateaued: boolean;
   /** Computed target weight in kg (for INCREASE_WEIGHT / REDUCE_WEIGHT); internal / testing use. */
   targetWeightKg?: number;
+  /** Rep target that pairs with a weight change — bottom of the rep range on a load increase. */
+  targetReps?: number;
 }
 
 /**
@@ -116,7 +119,7 @@ export function recommendExercise(
   const cls = movementClassFor(ctx.movementPattern);
   const currentWeight = latest.topWeight ?? 0;
   const currentStr = currentWeight > 0 ? `${currentWeight}kg` : "current weight";
-  const [, repMax] = repRange;
+  const [repMin, repMax] = repRange;
 
   const topStreak = consecutiveTopRangeSessions(sessions, repRange);
   const dropoff = repDropoffRatio(latest.sets);
@@ -201,17 +204,19 @@ export function recommendExercise(
 
   // 5. INCREASE_WEIGHT — 2-for-2 rule (NSCA): two consecutive sessions at the same weight all at top
   if (dpStatus === "hit_top" && pair.weightSame && topStreak >= CONFIRM_SESSIONS && currentWeight > 0) {
-    const newW = nextWeight(currentWeight, cls);
-    const newStr = `${newW}kg`;
+    const newW = nextWeight(currentWeight, cls, ctx.equipment);
+    // Double progression: adding load resets reps to the bottom of the range, then climb back up.
+    const newStr = `${newW}kg × ${repMin}`;
     return {
       action: "INCREASE_WEIGHT",
       trend,
       plateaued: false,
       targetWeightKg: newW,
+      targetReps: repMin,
       recommendation: {
         action: "INCREASE_WEIGHT",
         target: newStr,
-        reason: `Hit ${repMax} reps on all sets for ${topStreak} sessions at ${currentStr} — increase to ${newStr}.`,
+        reason: `Hit ${repMax} reps on all sets for ${topStreak} sessions at ${currentStr} — increase to ${newW}kg and drop back to ${repMin} reps, then build back up to ${repMax}.`,
       },
     };
   }
