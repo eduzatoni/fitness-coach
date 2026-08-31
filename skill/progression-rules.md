@@ -22,6 +22,16 @@ A single strong session isn't enough to justify adding load — it might be a go
 must hit the top of the range on **all sets for two consecutive sessions** at the same weight before
 weight is increased. A single top session returns `MAINTAIN` with a note to confirm next session.
 
+### Weight increase → reset reps
+
+When a weight increase is applied to a routine target, always **drop the rep target** to the bottom
+of the rep range (e.g. 8 for an 8–12 range). Do not carry the previous rep target forward. A new
+weight requires new rep-building from the bottom. Apply this whenever calling `change_target` with
+a higher weight — lower `reps` accordingly.
+
+Exception: very small increments (e.g. +1–1.5 kg isolation bump) where the load change is
+negligible may stay at the current rep target at coach discretion.
+
 ### Worked example (3×8–12, upper compound → +2.5 kg)
 
 | Session | Weight | Reps       | Action                         |
@@ -51,6 +61,17 @@ regression or a bad session (`isPostBumpAdjustment` is detected; action stays `M
 Increment is clamped to 2–10% of the current working weight. If rounding would return the same
 weight (e.g. very light loads), one plate step is added to guarantee forward progress. The increment
 class is inferred from the exercise's `MovementPattern` (derived from title + primary muscle group).
+
+### Dumbbell availability (per hand)
+
+The available dumbbell weights at this gym are:
+
+- **1–10 kg:** every 1 kg step (1, 2, 3, … 10)
+- **Above 10 kg:** every 2 kg step (12, 14, 16, 18, 20, 22, …)
+
+When computing the next dumbbell weight, always round **up** to the nearest available step.
+Examples: 10 kg → 12 kg, 12 kg → 14 kg, 16 kg → 18 kg.
+Never suggest a weight that doesn't exist (e.g. 11 kg, 13 kg, 17.5 kg for dumbbells).
 
 ## Rep range by exercise role
 
