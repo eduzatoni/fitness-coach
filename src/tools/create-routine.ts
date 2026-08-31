@@ -1,4 +1,4 @@
-import { hevyPost } from "../hevy/client.js";
+import { hevyPost, invalidateCache } from "../hevy/client.js";
 import type { RoutineInput, HevyRoutine } from "../hevy/types.js";
 
 export async function createRoutineTool(args: {
@@ -10,5 +10,6 @@ export async function createRoutineTool(args: {
   }
 
   const result = await hevyPost<{ routine: HevyRoutine }>("/routines", { routine: args.routine });
+  invalidateCache("/routines");
   return { created: true, id: result.routine.id, title: result.routine.title };
 }

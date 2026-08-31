@@ -1,4 +1,4 @@
-import { hevyGetAll, hevyPost } from "./client.js";
+import { hevyGetAll, hevyPost, invalidateCache } from "./client.js";
 import type { HevyRoutineFolder, RoutineFolderInput } from "./types.js";
 
 export async function getAllRoutineFolders(
@@ -14,5 +14,6 @@ export async function createRoutineFolder(
     "/routine_folders",
     { routine_folder: input }
   );
+  invalidateCache("/routine_folders");
   return data.routine_folder;
 }

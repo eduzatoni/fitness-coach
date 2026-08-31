@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -37,9 +37,30 @@ function readCache<T>(key: string): T | null {
   }
 }
 
-function writeCache<T>(key: string, data: T): void {
+function writeCache<T>(key: string, path: string, data: T): void {
   mkdirSync(CACHE_DIR, { recursive: true });
-  writeFileSync(join(CACHE_DIR, `${key}.json`), JSON.stringify({ ts: Date.now(), data }));
+  writeFileSync(join(CACHE_DIR, `${key}.json`), JSON.stringify({ ts: Date.now(), path, data }));
+}
+
+/**
+ * Delete every cached page for an endpoint. Call after any write (POST/PUT) so
+ * the next read reflects the new server state instead of a stale snapshot.
+ * Matches on the `path` stored in each cache file, so all `?page=N` variants
+ * of the same endpoint are cleared together.
+ */
+export function invalidateCache(path: string): void {
+  if (!existsSync(CACHE_DIR)) return;
+  for (const file of readdirSync(CACHE_DIR)) {
+    if (!file.endsWith(".json")) continue;
+    const full = join(CACHE_DIR, file);
+    try {
+      const { path: cachedPath } = JSON.parse(readFileSync(full, "utf8")) as { path?: string };
+      if (cachedPath === path) rmSync(full, { force: true });
+    } catch {
+      // Unparseable/legacy cache file — drop it so it can't serve stale data.
+      rmSync(full, { force: true });
+    }
+  }
 }
 
 export async function hevyGet<T>(
@@ -68,7 +89,7 @@ export async function hevyGet<T>(
   }
 
   const data = (await res.json()) as T;
-  writeCache(ck, data);
+  writeCache(ck, path, data);
   return data;
 }
 
