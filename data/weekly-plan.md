@@ -1,63 +1,55 @@
-# Weekly Plan — Aug 21–30, 2026
+# Weekly Plan — Aug 31 – Sep 6, 2026
 
-_Generated: 2026-08-21 (Friday)_
+_Generated: 2026-08-31 (Monday)_
 
 ## Context
 
-This week so far (Aug 18–20): Full Body Day A + Run, Upper B Pull, Upper A Push + Run.
-Three straight training days — today (Fri Aug 21) is rest.
-Running: eligible for Stage 8 (25min continuous) — 3 consecutive Stage 7 successes.
-Football: Sun Aug 23 at 10:00, Sun Aug 30 at 16:20.
+Yesterday (Sun Aug 30): full 87-min football match (16:27–17:54, avg HR 143 / max 182) — high leg
+and system fatigue. Prior week was heavy: Lower A Wed, Upper A Thu, runs Tue/Thu, Upper A/B Fri–Sat.
+Legs and CNS are taxed coming into this week.
+
+Next football: 🏆 **MCup, Sun Sep 6 at 12:00** — Grêmio vs FC Tormotor 07. This week tapers toward it.
+
+Running: **Stage 9 — 30 min continuous** @ 10:15–10:45/km. 0/2 successes; two clean runs unlock the
+pace-development phase.
 
 ---
 
-## Weekend (Aug 21–23)
+### Mon Aug 31 — Upper A (Push) + recovery
+Day after a full match — legs cooked. No legs, no hard run. Push day lets the legs recover while
+still training. Full evening window (no German). Gym ~17:00–18:30.
+- Apply next-session targets: DB Bench 28×8, Incline DB 24×8, Cable Fly 57.5×8 (already set in Upper A).
 
-### Fri Aug 21 — REST
-Three days straight including two runs. Full rest today.
-
-### Sat Aug 22 — REST
-Rest before football. Arrive fresh to the match.
-
-### Sun Aug 23 — Football
-Football match at 10:00 — Grêmio vs FC Vahdat. High legs/fatigue. No training.
-
----
-
-## Next Week (Aug 24–30)
-
-### Mon Aug 24 — Push + Tennis
-Football was Sunday — legs still taxed. Upper only.
-DB Bench, Incline DB, Cable Fly, Shoulder Press, Laterals, Triceps.
-- **20:00** Tennis — moderate load, no conflict with Push earlier in the day.
-
-### Tue Aug 25 — Run (Stage 8) + Pull
-- **07:30** Run — Stage 8: 25min continuous at 10:15–10:45/km. First attempt at new stage.
-- **~17:00** Pull (~45–50min, clears before German).
+### Tue Sep 1 — Run (Stage 9) + Lower A (Legs)
+- **07:30 Run** — Stage 9: 30 min continuous @ 10:15–10:45/km. Success #1.
+- **~17:00 Lower A (Quad Focus)** — legs land ≥2 days after Sunday football ✅. German 18:20, so
+  finish by ~17:30 — keep it tight.
+- Leg Press → **125kg × 8** (up from 120×12); other lifts building baselines.
 - **18:20** German class.
 
-### Wed Aug 26 — Legs
-~48h after football. Legs recovered enough for a solid session.
-Squat, RDL, leg press, lunges. Normal intensity.
+### Wed Sep 2 — Upper B (Pull) + optional football
+Pull day, full evening window. Wednesday football is optional — if you play, it's high leg load but
+Friday legs still holds (2 days out). If you skip, no change.
 
-### Thu Aug 27 — Run (Stage 8) + Push
-- **07:30** Run — Stage 8: 25min continuous (second attempt, or repeat if Tuesday felt rough).
-- **~17:00** Push — clears before German.
-- **18:20** German class.
+### Thu Sep 3 — Run (Stage 9)
+- **07:30 Run** — Stage 9: 30 min continuous. Success #2 → unlocks pace-development phase.
+- Morning run only; rest the legs in the evening ahead of Friday. German 18:20.
+- Exception: if Wed football happened, skip today's run and move it to Fri ~07:30 instead.
 
-### Fri Aug 28 — REST
-Good week — full rest.
+### Fri Sep 4 — Lower B (Hip & Hinge) — LIGHT
+Standing Friday legs slot, but MCup is Sunday — go light/technical, don't grind. Keep the movement
+pattern, don't leave yourself flat. Skip if legs still feel heavy from Tuesday.
 
-### Sat Aug 29 — Open
-Optional session if energy is good. Otherwise rest before Sunday football.
+### Sat Sep 5 — REST (pre-match taper)
+Rest or light mobility only. Prime the legs for tomorrow's match.
 
-### Sun Aug 30 — Football
-Football at 16:20 — Grêmio vs FC Tormotor 07. High legs/fatigue. Rest day.
+### Sun Sep 6 — 🏆 Football (MCup)
+Match at 12:00 — Grêmio vs FC Tormotor 07. High leg/system load. No other training.
 
 ---
 
 ## Running targets
-- **Tue Aug 25:** Stage 8 — 25min continuous, pace 10:15–10:45/km
-- **Thu Aug 27:** Stage 8 — second attempt or repeat based on Tuesday
+- **Tue Sep 1:** Stage 9 — 30 min continuous, pace 10:15–10:45/km (success #1)
+- **Thu Sep 3:** Stage 9 — 30 min continuous (success #2 → pace focus unlocks)
 
 Update `skill/running-state.md` after each run.

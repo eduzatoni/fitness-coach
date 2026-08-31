@@ -13,8 +13,11 @@
   only fits if done in the morning or before ~17:30.
 - **Running:** Tuesday + Thursday ~07:30. Fixed commitment with one exception: if football happened
   on Wednesday, skip Thursday run and move it to Friday ~07:30 instead.
+- **Sunday football:** recurring fixture — treat as confirmed unless the user says otherwise. High legs/fatigue load.
 - **Wednesday football:** recurring optional session — show up sometimes, not committed. Treat as a high legs/fatigue load when planning; don't assume it happens unless confirmed.
-- **Weekends:** generally open — no fixed blocks, but football happens on weekends when scheduled.
+- **Legs slot — Tuesday:** standing legs session. Placed ≥2 days after Sunday football and before Wednesday. If Sunday football is unusually late (e.g. 18:00+), flag but keep Tuesday legs unless the user says to move it.
+- **Legs slot — Friday:** standing legs session. Placed 2 days after Wednesday football. If Wednesday football didn't happen, Friday legs still runs — no reason to skip.
+- **Weekends:** generally open — no fixed blocks, but football happens on Sundays when scheduled.
 - **Gym access:** commercial gym, no restrictions on hours.
 
 <!-- Add other fixed blocks here as they come up — e.g. regular evening commitments, travel patterns -->
@@ -25,9 +28,6 @@
      Format: - YYYY-MM-DD (Day) [HH:MM]: Description — load note
      Example: - 2026-08-24 (Mon) 19:00: Football match ~90min — high legs/fatigue -->
 
-- 2026-08-23 (Sun) 10:00: Football match — Grêmio vs FC Vahdat — high legs/fatigue
-- 2026-08-24 (Mon) 20:00: Tennis — moderate load
-- 2026-08-30 (Sun) 16:20: Football match — Grêmio vs FC Tormotor 07 — high legs/fatigue
 - 2026-09-06 (Sun) 12:00: 🏆 Football match (MCup) — Grêmio vs FC Tormotor 07 — high legs/fatigue
 - 2026-09-13 (Sat) 16:25: Football match — Grêmio vs Ex Hürlimann — high legs/fatigue
 - 2026-09-27 (Sat) 13:10: Football match — Grêmio vs Deportivo La Habaña — high legs/fatigue
