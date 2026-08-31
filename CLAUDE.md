@@ -15,6 +15,8 @@ For **running questions** (review, progression, plan next run, scheduling around
 
 - `skill/running.md` — running protocol, progression ladder, symptom checks, scheduling rules
 - `skill/running-state.md` — current stage, consecutive successes, last run date
+- `skill/running-pace-phase.md` — post-ladder pace-development protocol (kicks in at Stage 9;
+  80/20 polarized, speed introduction order, cadence, sub-35 5K timeline)
 
 For **weekly planning / "plan my week" / "what should I train this week" questions**, also read:
 
@@ -51,8 +53,9 @@ When the user asks "plan my week" or equivalent:
 4. Lay out Mon–Sun: immovable events first, then slot gym (PPL rotation) + runs into open windows,
    honoring spacing rules from `skill/coaching-rules.md`. On German days (Tue/Thu): run 07:30 →
    work → gym ~17:00–18:00 → German 18:20. Always include a gym session — the window is tight but
-   real; don't drop it pre-emptively. Football-to-legs: use actual kick-off time, not "48h" — the
-   day after any football match defaults to upper body or rest.
+   real; don't drop it pre-emptively. Legs slots are **Tuesday** (≥2 days after Sunday football)
+   and **Friday** (2 days after Wednesday football) — commit to these regardless of whether football
+   happened, unless there's a hard conflict.
 5. Output a day-by-day plan with the specific run target, which PPL session lands where, and a
    one-line note per non-obvious placement. **Write the plan to `data/weekly-plan.md`** (overwrite
    each time) so the user can reference it outside the conversation.
@@ -219,10 +222,11 @@ Or use `exercise_name` instead of `exercise_template_id` to resolve by name:
 { "workout": { "title": "Morning Run", "start_time": "2026-08-19T07:00:00Z", "end_time": "2026-08-19T07:45:00Z", "exercises": [{ "exercise_name": "Running", "sets": [{ "type": "normal", "duration_seconds": 2700, "distance_meters": 8000 }] }] } }
 ```
 
-Logs a workout to Hevy — football, running, or any session. Supports past `start_time` for backfilling.
+Logs a workout to Hevy — football, tennis, running, or any session. Supports past `start_time` for backfilling.
 Same confirm gate: omit `confirm` → preview. `"confirm": true` → writes to Hevy.
-Use for: logging football matches/training, runs, or any non-gym session. Football → `distance_duration`
-template. Running → template name "Running" (`exercise_name: "Running"` auto-resolves).
+Use for: logging football matches/training, tennis sessions, runs, or any non-gym session. Football → `distance_duration`
+template. Tennis → `exercise_name: "Tennis"` auto-resolves (template id: `59d7ab4f-7b1c-4c33-9810-253c2247e307`).
+Running → template name "Running" (`exercise_name: "Running"` auto-resolves).
 
 **Running set format** — when the screenshot shows interval breakdown (Warm Up / Fast / Cool Down),
 log as 3 sets on the same exercise:
@@ -240,7 +244,7 @@ If only totals are available (no breakdown), log as a single `normal` set.
 
 Creates a custom exercise template in your Hevy account. Same confirm gate.
 Use once to create "Football" (no built-in template exists). After creation note the returned `id`
-for use in `log_workout`. Running already has a built-in template (`exercise_name: "Running"` resolves it).
+for use in `log_workout`. Tennis template already exists (`exercise_name: "Tennis"` resolves it, id: `59d7ab4f-7b1c-4c33-9810-253c2247e307`). Running already has a built-in template (`exercise_name: "Running"` resolves it).
 
 ## Recommendation actions (internal)
 
@@ -363,6 +367,12 @@ Never skip step 2 — the user must see what the auto-match resolved to before a
 
 ### Auto-applying next-session targets
 
+**Whenever a workout analysis (or exercise analysis) produces INCREASE_WEIGHT / REDUCE_WEIGHT
+targets, apply them without being asked.** Do not wait for the user to name each exercise, and do
+not update them one at a time. The moment you've analyzed a session and identified which exercises
+should change next time, batch every change into a single preview + confirm. The user's job is to
+say yes, not to drive the edits.
+
 When analysis produces per-exercise targets for a named routine (e.g. "next Upper B: Face Pull →
 38kg, Bicep Curl → 11kg, Hammer Curl → 11kg"), apply them immediately — do not leave them as a
 manual todo.
@@ -376,6 +386,13 @@ manual todo.
 5. Confirm: "Done — 3 exercises updated in Upper B."
 
 If the user says "everything else stays the same" or equivalent, only change the listed exercises.
+
+**Reps on a weight increase — always drop back down the range.** Double progression means: when
+you add load, reps reset to the *bottom* of the rep range and climb back up over subsequent
+sessions. So an INCREASE_WEIGHT from "55kg × 12" goes to "57.5kg × 8" (bottom of an 8–12 range),
+**not** "57.5kg × 12". The `analyze_*` tools now return the target already formatted this way
+(e.g. `"57.5kg × 8"`) — carry that rep number into the `change_target` edit (`weight_kg` +
+`reps`). Never apply a weight increase while leaving reps at the top of the range.
 
 ## Coaching tone
 

@@ -24,8 +24,8 @@ Do not evaluate exercises in complete isolation. Consider the broader training c
 
 ### Whole-training scheduling
 
-Football and running are logged directly in Hevy (via `log_workout`), so `get_recent_workouts`
-and `get_training_summary` see everything — gym, football, and running in one timeline. For any
+Football, tennis, and running are logged directly in Hevy (via `log_workout`), so `get_recent_workouts`
+and `get_training_summary` see everything — gym, football, tennis, and running in one timeline. For any
 scheduling or recovery question, use the Hevy tools; no separate log file needed.
 
 **Infer leg/fatigue load from the activity** when advising on spacing:
@@ -34,6 +34,7 @@ scheduling or recovery question, use the Hevy tools; no separate log file needed
 |---------------------------------|----------|----------|
 | Football match (~90 min)        | high     | high     |
 | Football training (~60 min)     | moderate | moderate |
+| Tennis match (~60–90 min)       | moderate | moderate |
 | Easy run (≤6 km)                | low      | low      |
 | Moderate run (6–10 km)          | moderate | moderate |
 | Long run (≥10 km) or intervals  | high     | high     |
@@ -41,6 +42,9 @@ scheduling or recovery question, use the Hevy tools; no separate log file needed
 
 **Spacing guidance:**
 
+- Football recurs on **Sunday** (confirmed) and **Wednesday** (optional). Rather than reactively deferring legs after each match, use a standing pattern:
+  - **Tuesday legs** — ≥2 days after Sunday football, before Wednesday. Commit to this slot unless Sunday's match was unusually late or the user flags fatigue.
+  - **Friday legs** — 2 days after Wednesday football. Runs regardless of whether Wednesday football happened.
 - Avoid a heavy leg day within ~24h *after* a football match or a hard/long run — the legs are
   already taxed and quality suffers. Steer toward upper body, mobility, or rest instead.
 - Don't stack a hard/long run the day after a heavy gym leg session — same conflict, other direction.
@@ -76,7 +80,7 @@ When the user asks "plan my week" or equivalent, run this sequence:
    - Place immovable events first (football match, travel, German class blocks).
    - Slot gym (PPL rotation based on what was last done in Hevy) + runs into open windows.
    - Apply spacing rules:
-     - No heavy leg day within ~24h after football or a hard/long run.
+     - **Legs slots are fixed: Tuesday and Friday.** Tuesday is ≥2 days after Sunday football; Friday is 2 days after Wednesday football. Don't move these unless there's a hard conflict — the point is to guarantee legs gets trained despite the football schedule.
      - No hard/long run the day after a heavy gym leg day.
      - Min 1 rest day between football and a run.
      - Upper-body gym is fine adjacent to sport.
