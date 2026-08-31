@@ -6,6 +6,8 @@ interface TrimmedSet {
   weight_kg: number | null;
   reps: number | null;
   rpe: number | null;
+  distance_meters: number | null;
+  duration_seconds: number | null;
 }
 
 interface TrimmedExercise {
@@ -37,6 +39,8 @@ function trimWorkout(w: HevyWorkout): TrimmedWorkout {
         weight_kg: s.weight_kg,
         reps: s.reps,
         rpe: s.rpe,
+        distance_meters: s.distance_meters,
+        duration_seconds: s.duration_seconds,
       })),
     })),
   };
