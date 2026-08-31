@@ -53,7 +53,10 @@ Stage 9 — 30min_continuous   ← then pace focus begins
 - Advance only after **≥2 consecutive successes** at the current stage
 - Success = stable pace within target range + stable effort + no pain during or next morning
 - Any symptom reported → repeat current stage or regress one step. Never force.
-- At stage 9 with ≥2 successes and no symptoms → shift focus: same duration, gradually improve pace
+- At stage 9 with ≥2 successes and no symptoms → shift focus: same duration, gradually improve pace.
+  **Switch to `skill/running-pace-phase.md`** — the evidence-based protocol for converting the
+  duration base into speed toward the sub-35 5K goal (80/20 polarized, strides → intervals → tempo,
+  cadence, calf/tibialis work, 10% volume rule).
 
 **Current state:** see `skill/running-state.md`
 

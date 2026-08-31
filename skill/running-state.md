@@ -5,15 +5,15 @@
 > You update it manually — the coach never writes this file automatically.
 
 ## Current stage
-- Stage index: 7
-- Stage name: 20min_continuous
-- Consecutive successes at this stage: 3
-- Last run date: 2026-08-20
+- Stage index: 9
+- Stage name: 30min_continuous
+- Consecutive successes at this stage: 0
+- Last run date: 2026-08-27
 
 ## Next stage
-- Stage index: 8
-- Stage name: 25min_continuous
+- Stage index: 9
+- Stage name: 30min_continuous (pace focus begins at ≥2 successes here)
 
 ## Notes
-- Eligible for progression to stage 8 — next run should attempt 25min continuous
+- Completed Stage 8 ×2 with consistent 10:22/km pace, no symptoms. Advanced to Stage 9.
 - All recent runs at target pace (10:15–10:45/km), no symptoms reported
