@@ -236,6 +236,17 @@ log as 3 sets on the same exercise:
 
 If only totals are available (no breakdown), log as a single `normal` set.
 
+**Stride sessions (30min + N strides)** — log as warmup + main block + repeating stride pairs +
+final cool-down. Each stride is a recovery jog followed by the fast stride:
+- Warm Up → `type: "warmup"`
+- Main steady block → `type: "normal"` (the 30min run)
+- For each stride: recovery jog → `type: "dropset"` (~90m/60s), then stride → `type: "normal"` (~90–190m/20s)
+- Final cool-down → `type: "dropset"` (longer distance/duration)
+
+Use the per-interval distances and durations from the app screenshot. The stride distances vary
+(typically 90–190m) — use the actual values shown, not fixed estimates. Before logging, check the
+most recent stride run in Hevy (`get_recent_workouts`) to confirm the set pattern is consistent.
+
 ### create_exercise_template
 
 ```json
