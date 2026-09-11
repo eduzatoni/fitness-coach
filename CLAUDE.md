@@ -318,7 +318,7 @@ Pass one of these as the `edit` field:
 ```json
 { "type": "add_set",        "exercise_title": "Bench Press", "set": { "type": "normal", "weight_kg": 80, "reps": 10 } }
 { "type": "remove_set",     "exercise_title": "Bench Press", "set_index": 2 }
-{ "type": "change_target",  "exercise_title": "Bench Press", "weight_kg": 82.5, "reps": 10 }
+{ "type": "change_target",  "exercise_title": "Bench Press", "weight_kg": 82.5, "reps": 10, "rest_seconds": 90 }
 { "type": "add_exercise",   "exercise_template_id": "tpl-id", "exercise_title": "Cable Fly", "sets": [...], "after_exercise": "Bench Press" }
 { "type": "remove_exercise","exercise_title": "Cable Fly" }
 ```
@@ -404,6 +404,10 @@ sessions. So an INCREASE_WEIGHT from "55kg × 12" goes to "57.5kg × 8" (bottom 
 **not** "57.5kg × 12". The `analyze_*` tools now return the target already formatted this way
 (e.g. `"57.5kg × 8"`) — carry that rep number into the `change_target` edit (`weight_kg` +
 `reps`). Never apply a weight increase while leaving reps at the top of the range.
+
+Always include `rest_seconds` on every `change_target` edit: **90s for compound/big-muscle exercises**
+(bench, press, rows, squats, deadlifts, lat pulldown), **60s for isolation/small-muscle exercises**
+(lateral raises, curls, tricep extensions, crunches, cable flys).
 
 ## Coaching tone
 
