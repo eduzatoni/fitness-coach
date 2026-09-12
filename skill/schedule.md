@@ -29,8 +29,8 @@
      Example: - 2026-08-24 (Mon) 19:00: Football match ~90min — high legs/fatigue -->
 
 - 2026-09-06 (Sun) 12:00: 🏆 Football match (MCup) — Grêmio vs FC Tormotor 07 — high legs/fatigue
-- 2026-09-13 (Sat) 16:25: Football match — Grêmio vs Ex Hürlimann — high legs/fatigue
-- 2026-09-27 (Sat) 13:10: Football match — Grêmio vs Deportivo La Habaña — high legs/fatigue
+- 2026-09-13 (Sun) 16:25: Football match — Grêmio vs Ex Hürlimann — high legs/fatigue
+- 2026-09-27 (Sun) 13:10: Football match — Grêmio vs Deportivo La Habaña — high legs/fatigue
 
 ## How the coach uses this
 
