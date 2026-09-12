@@ -1,55 +1,62 @@
-# Weekly Plan — Aug 31 – Sep 6, 2026
+# Weekly Plan — Sep 9–15, 2026
 
-_Generated: 2026-08-31 (Monday)_
+_Generated: 2026-09-12 (Saturday morning)_
 
 ## Context
-
-Yesterday (Sun Aug 30): full 87-min football match (16:27–17:54, avg HR 143 / max 182) — high leg
-and system fatigue. Prior week was heavy: Lower A Wed, Upper A Thu, runs Tue/Thu, Upper A/B Fri–Sat.
-Legs and CNS are taxed coming into this week.
-
-Next football: 🏆 **MCup, Sun Sep 6 at 12:00** — Grêmio vs FC Tormotor 07. This week tapers toward it.
-
-Running: **Stage 9 — 30 min continuous** @ 10:15–10:45/km. 0/2 successes; two clean runs unlock the
-pace-development phase.
+- Last week: heavy on upper and leg training, with tennis, two full Upper B/Pull sessions (Mon & Fri), Lower A/quads (Tue), and two runs (Tue/Thu, both 30min+strides). Football match is today (Sat 16:25). Legs are due for recovery from load. 
+- Running: Stage 9, 30min continuous with focus shifting to pace (2/2 successes, no symptoms). Next is the pace development phase — begin adding a 5th stride (per state notes).
 
 ---
 
-### Mon Aug 31 — Upper A (Push) + recovery
-Day after a full match — legs cooked. No legs, no hard run. Push day lets the legs recover while
-still training. Full evening window (no German). Gym ~17:00–18:30.
-- Apply next-session targets: DB Bench 28×8, Incline DB 24×8, Cable Fly 57.5×8 (already set in Upper A).
+### Sat Sep 12 — Football match, rest otherwise
+- 16:25: Grêmio vs Ex Hürlimann — high full-body/leg load.
+- No other hard session. Active recovery or mobility if you want.
 
-### Tue Sep 1 — Run (Stage 9) + Lower A (Legs)
-- **07:30 Run** — Stage 9: 30 min continuous @ 10:15–10:45/km. Success #1.
-- **~17:00 Lower A (Quad Focus)** — legs land ≥2 days after Sunday football ✅. German 18:20, so
-  finish by ~17:30 — keep it tight.
-- Leg Press → **125kg × 8** (up from 120×12); other lifts building baselines.
-- **18:20** German class.
+### Sun Sep 13 — Rest/light mobility
+- Follow football with full rest or very light mobility only — don't overload the legs.
 
-### Wed Sep 2 — Upper B (Pull) + optional football
-Pull day, full evening window. Wednesday football is optional — if you play, it's high leg load but
-Friday legs still holds (2 days out). If you skip, no change.
+### Mon Sep 14 — Upper A (Push Focus)
+- First open window after football. Push day: Bench, Incline, Flys, Shoulder, Triceps, Abs. No legs yet, let them recover after the match.
+- Gym late afternoon/evening (work window, no German tonight).
 
-### Thu Sep 3 — Run (Stage 9)
-- **07:30 Run** — Stage 9: 30 min continuous. Success #2 → unlocks pace-development phase.
-- Morning run only; rest the legs in the evening ahead of Friday. German 18:20.
-- Exception: if Wed football happened, skip today's run and move it to Fri ~07:30 instead.
+### Tue Sep 15 — Run: 30min + 5 strides (pace phase, success #1)
+- 07:30 run. Start pace development: 30min continuous at easy pace + 5 relaxed strides at end. Focus on smooth cadence. 
+- Evening: Lower A (Quad) — standing legs slot (2 days after Sat game, enough recovery; keep intensity moderate if legs still feel it).
+- 18:20–20:30: German.
 
-### Fri Sep 4 — Lower B (Hip & Hinge) — LIGHT
-Standing Friday legs slot, but MCup is Sunday — go light/technical, don't grind. Keep the movement
-pattern, don't leave yourself flat. Skip if legs still feel heavy from Tuesday.
+### Wed Sep 16 — Upper B (Pull Focus)
+- Back to Pull: Rows, Pulldown, Rear Delt, Curls. Full open window for gym.
+- If you want a double session, keep it upper only.
 
-### Sat Sep 5 — REST (pre-match taper)
-Rest or light mobility only. Prime the legs for tomorrow's match.
+### Thu Sep 17 — Run: 30min + 5 strides (pace phase, success #2)
+- 07:30 run, same as Tuesday. If Wednesday football happened, move this run to Friday morning (Friday = legs day too, see slots below).
+- 18:20–20:30: German. Rest evening, no gym.
 
-### Sun Sep 6 — 🏆 Football (MCup)
-Match at 12:00 — Grêmio vs FC Tormotor 07. High leg/system load. No other training.
+### Fri Sep 18 — Lower B (Hip/Hinge)
+- Standard Friday legs slot — hip/hinge focus. Ok even if Thursday run went ahead (moderate both if needed). 
+
+### Sat Sep 19 — Rest/mobility or optional tennis
+- Full rest or light activity.
+
+### Sun Sep 20 — Football
+- Presume match — confirm time later in week. Standard recovery plan.
 
 ---
 
 ## Running targets
-- **Tue Sep 1:** Stage 9 — 30 min continuous, pace 10:15–10:45/km (success #1)
-- **Thu Sep 3:** Stage 9 — 30 min continuous (success #2 → pace focus unlocks)
+- Tue/Thu: 30min continuous + 5 strides (focus on smooth cadence, easy effort, no push for pace)
+- If Wednesday football happens, skip Thu run, do Fri morning instead
 
-Update `skill/running-state.md` after each run.
+## Gym rotation
+- Mon: Upper A (Push)
+- Tue: Lower A (Quad)
+- Wed: Upper B (Pull)
+- Fri: Lower B (Hip/Hinge)
+
+---
+
+**Notes:**
+- No consecutive high leg-load days; Tuesday/Friday always legs (recovers from football).
+- Mon always Push after football. Rest/mobility after match. 
+- If a gym window closes due to work, move session to next available.
+- Update running-state after each run (pace focus starts this phase; strides progress to 5 per session).
