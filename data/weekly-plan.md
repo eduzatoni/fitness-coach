@@ -3,17 +3,18 @@
 _Generated: 2026-09-12 (Saturday morning)_
 
 ## Context
-- Last week: heavy on upper and leg training, tennis, two Upper B/Pull sessions, Lower A/quads, and two 30min runs + strides. Football match is today (Sat 16:25), legs need recovery.
+- Last week: heavy on upper and leg training, tennis, two Upper B/Pull sessions, Lower A/quads, and two 30min runs + strides. Football match is tomorrow (Sun 16:25), legs need recovery.
 - Running: Stage 9, pace development phase with 2/2 successes, no symptoms. Next runs add strides.
 
 ---
 
-### Sat Sep 12 — Football match, rest otherwise
-- 16:25: Football match — high legs/fatigue load.
-- Rest or light mobility only, no hard sessions.
+### Sat Sep 12 — Upper A (Push)
+- Gym day: Push session—Bench, Incline, Flys, Shoulders, Triceps, Abs.
+- Avoid legs today to preserve freshness for tomorrow's football.
+- Rest or light mobility later if desired.
 
 ### Sun Sep 13 — Rest/light mobility
-- Full rest or very light mobility day post-football.
+- Full rest or very light mobility post-football to recover legs.
 
 ### Mon Sep 14 — Upper A (Push)
 - Push gym day: Bench, Incline, Flys, Shoulders, Triceps, Abs.
@@ -21,12 +22,11 @@ _Generated: 2026-09-12 (Saturday morning)_
 
 ### Tue Sep 15 — Run + Lower A (Quads)
 - 07:30 run: 30min continuous + 5 strides, focus on smooth cadence, easy effort.
-- Evening: Lower A legs session (quad focus), standard Tuesday legs slot, moderate intensity if legs still tired.
+- Evening: Lower A legs session (quad focus), moderate intensity if legs still tired.
 - 18:20–20:30: German class.
 
 ### Wed Sep 16 — Upper B (Pull)
 - Upper Pull gym day: Rows, Pulldown, Rear Delt, Curls.
-- Open window for gym.
 
 ### Thu Sep 17 — Run
 - 07:30: 30min continuous + 5 strides same as Tuesday.
@@ -34,7 +34,6 @@ _Generated: 2026-09-12 (Saturday morning)_
 
 ### Fri Sep 18 — Lower B (Hip/Hinge)
 - Standard Friday legs session focusing on hip/hinge.
-- OK to do post-run Thursday if it happened.
 
 ### Sat Sep 19 — Rest/mobility or tennis
 - Full rest, light mobility, or optional tennis.
@@ -49,6 +48,7 @@ _Generated: 2026-09-12 (Saturday morning)_
 - If Wednesday football occurs, move Thu run to Fri morning.
 
 ## Gym rotation
+- Sat Sep 12 TODAY: Upper A (Push) — recommended to avoid legs before football.
 - Mon: Upper A (Push)
 - Tue: Lower A (Quads)
 - Wed: Upper B (Pull)
